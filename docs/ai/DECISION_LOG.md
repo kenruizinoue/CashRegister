@@ -97,6 +97,12 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) wrote the README 'Solution: Running the API' section. Every command and the example response were executed live first (uvicorn started, /health and /change curled, server stopped) and the response pasted from the real output rather than composed from memory.
 - AI decision, accepted without change: the section is appended after the original challenge text, leaving the problem statement untouched; the full README restructure is Prompt 7 scope.
 
+## Phase 2 audit (2026-07-03)
+
+- AI (Claude Code) enumerated seven gap candidates and wrote 11 tests before any fix. All passed on the first run, so no implementation changed; the tests remain as regression coverage. Recorded honestly: unlike the Phase 1 audit, this one exposed no defects, consistent with the handler being a thin adapter over the already-hardened core.
+- AI decision, accepted without change: the missing CLI --currency flag is a parity limitation, not a coverage gap, so the audit did not expand scope to add it; it is recorded in the plan and will surface in ARCHITECTURE.md and the self-critique scaffold.
+- Human then directed implementing the flag. AI added --currency with argparse choices generated from the CURRENCIES registry (a new currency becomes a CLI option automatically) and mapped it into ChangePolicy. TDD: EUR run red first; unknown currency exits 2 via argparse choices.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.

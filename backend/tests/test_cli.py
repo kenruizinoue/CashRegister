@@ -38,6 +38,29 @@ class TestHappyPath:
         lines = output_path.read_text().rstrip("\n").split("\n")
         assert lines[2] == "1 dollar,2 quarters,1 dime,1 nickel,2 pennies"
 
+    def test_currency_flag_eur(self, tmp_path):
+        input_path = tmp_path / "input.txt"
+        output_path = tmp_path / "output.txt"
+        input_path.write_text("2.12,5.00\n")
+        assert main([str(input_path), str(output_path), "--currency", "EUR"]) == 0
+        assert output_path.read_text().rstrip("\n") == (
+            "1 two euro coin,1 fifty cent coin,1 twenty cent coin,"
+            "1 ten cent coin,1 five cent coin,1 two cent coin,1 one cent coin"
+        )
+
+    def test_currency_defaults_to_usd(self, tmp_path):
+        input_path = tmp_path / "input.txt"
+        output_path = tmp_path / "output.txt"
+        input_path.write_text("2.12,3.00\n")
+        assert main([str(input_path), str(output_path)]) == 0
+        assert output_path.read_text().rstrip("\n") == "3 quarters,1 dime,3 pennies"
+
+    def test_unknown_currency_exits_with_usage_error(self, io_paths):
+        input_path, output_path = io_paths
+        with pytest.raises(SystemExit) as excinfo:
+            main([str(input_path), str(output_path), "--currency", "XYZ"])
+        assert excinfo.value.code == 2
+
     def test_error_lines_still_succeed_as_a_run(self, tmp_path):
         input_path = tmp_path / "input.txt"
         output_path = tmp_path / "output.txt"

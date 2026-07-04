@@ -5,6 +5,7 @@ import random
 import sys
 from pathlib import Path
 
+from cash_register.currency import CURRENCIES
 from cash_register.domain import InvalidConfigError
 from cash_register.policy import ChangePolicy
 from cash_register.processor import process_file
@@ -29,13 +30,21 @@ def build_parser() -> argparse.ArgumentParser:
         default=None,
         help="seed the random source for reproducible output",
     )
+    parser.add_argument(
+        "--currency",
+        choices=sorted(CURRENCIES),
+        default="USD",
+        help="denomination table to make change from (default: USD)",
+    )
     return parser
 
 
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
-        policy = ChangePolicy(random_divisor=args.divisor)
+        policy = ChangePolicy(
+            currency=CURRENCIES[args.currency], random_divisor=args.divisor
+        )
     except InvalidConfigError as error:
         print(f"error: {error}", file=sys.stderr)
         return 2

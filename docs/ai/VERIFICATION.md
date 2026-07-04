@@ -92,6 +92,12 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 
 - Verification: documented commands executed exactly as written before documenting them; uvicorn served, /health returned ok, the README example curl returned the response now shown in the README (seed 42, third line summing to 167). No automated tests, docs ticket.
 
+## Phase 2 audit (2026-07-03)
+
+- Tests: 11 audit tests, all green on first run (444 passed total); `ruff check .` clean; live uvicorn run of the README example verified earlier the same day at human request.
+- Post-audit human-directed addition, CLI --currency: TDD red-green (EUR run failed on the unrecognized argument, then 447 passed total, 3 new); manual cash-register run with --currency EUR produced the correct seven-coin breakdown for 2.88 change.
+- Edge cases added: batch of exactly 1000 accepted and 1001 rejected at the endpoint, explicit null seed, string and fractional seeds 422, non-JSON body 422, GET on /change 405, Unicode-digit line and embedded-newline line as per-line error entries, padded line ok, divisor 1 with seed deterministic.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

@@ -91,3 +91,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: README API run section, written from a live verified run of the documented commands.
+
+## Phase 2 audit (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: adversarial audit of the API surface per Prompt 5; boundary, transport, and hostile-content tests, no defects found.

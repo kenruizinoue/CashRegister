@@ -167,6 +167,59 @@ class TestRequestShapeRejection:
         assert client.post("/change", json=payload).status_code == 422
 
 
+class TestPhase2Audit:
+    def test_batch_at_the_cap_is_accepted(self, client):
+        response = client.post("/change", json={"lines": ["1.97,2.00"] * 1000})
+        assert response.status_code == 200
+        assert len(response.json()["results"]) == 1000
+
+    def test_batch_over_the_cap_is_422(self, client):
+        response = client.post("/change", json={"lines": ["1.97,2.00"] * 1001})
+        assert response.status_code == 422
+
+    def test_explicit_null_seed_is_accepted(self, client):
+        response = client.post("/change", json={"lines": ["1.97,2.00"], "seed": None})
+        assert response.status_code == 200
+
+    @pytest.mark.parametrize("seed", ["abc", 4.5])
+    def test_non_integer_seed_is_422(self, client, seed):
+        response = client.post("/change", json={"lines": ["1,2"], "seed": seed})
+        assert response.status_code == 422
+
+    def test_non_json_body_is_422(self, client):
+        response = client.post(
+            "/change", content="lines=1,2", headers={"Content-Type": "text/plain"}
+        )
+        assert response.status_code == 422
+
+    def test_get_method_not_allowed(self, client):
+        assert client.get("/change").status_code == 405
+
+    def test_unicode_digit_line_is_an_error_entry(self, client):
+        response = client.post("/change", json={"lines": ["٢,٣"]})
+        result = response.json()["results"][0]
+        assert result["status"] == "error"
+        assert "invalid amount" in result["error"]
+
+    def test_embedded_newline_line_is_an_error_entry(self, client):
+        response = client.post("/change", json={"lines": ["2.12,3.00\n1.97,2.00"]})
+        result = response.json()["results"][0]
+        assert result["status"] == "error"
+
+    def test_padded_line_is_ok(self, client):
+        response = client.post("/change", json={"lines": [" 1.97 , 2.00 "]})
+        result = response.json()["results"][0]
+        assert result["status"] == "ok"
+        assert result["change"] == "3 pennies"
+
+    def test_divisor_one_with_seed_is_deterministic(self, client):
+        payload = {"lines": ["2.12,3.00"], "divisor": 1, "seed": 5}
+        first = client.post("/change", json=payload).json()
+        second = client.post("/change", json=payload).json()
+        assert first == second
+        assert first["results"][0]["status"] == "ok"
+
+
 class TestOpenApiSchema:
     def test_models_documented(self, client):
         schema = client.get("/openapi.json").json()

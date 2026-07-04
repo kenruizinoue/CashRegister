@@ -172,7 +172,9 @@ python -m cash_register.cli sample_input.txt output.txt
 
 Phase 1 closes via Prompt 5 audit (edge case sweep, fixes, commit, mark phase done).
 
-## Phase 2: FastAPI Adapter
+## Phase 2: FastAPI Adapter `[DONE]`
+
+Closed by Prompt 5 audit on 2026-07-03: 11 audit tests added covering batch-cap boundaries, seed edge shapes, transport-level errors, hostile line content, and always-random mode; none exposed a defect (the handler delegates to the already-audited core). 444 tests green, CI green. The CLI currency parity limitation flagged by the audit was then implemented at human direction (--currency USD|EUR, 447 tests green).
 
 Standards: standards/base-sdlc.md + standards/python-fastapi.md. API deps behind an `api` extra; FastAPI delegates to the Phase 1 core.
 
