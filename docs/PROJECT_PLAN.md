@@ -467,7 +467,7 @@ Acceptance criteria:
 
 - Spec behaviors covered by tests (104 frontend tests green); boundary rules hold (gateway injected, no fetch outside adapters); supersedes the Ticket 20 screen (file pick replaced by the spec's Load Sample flow).
 
-### Ticket 24 - UX and responsive polish `[ ]`
+### Ticket 24 - UX and responsive polish `[x]`
 
 Objective:
 

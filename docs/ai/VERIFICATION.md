@@ -142,6 +142,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Refinement (2026-07-04): payment lock integration test red-first exactly as specified by the human (300.10 owed, 4x $100 accepted to 400, 5th click dead, 1 cent also locked, Clear Paid unlocks); exact-coverage case locks with a plain notice; 108 frontend tests total.
 - Edge cases exercised: paid accumulation across bills and coins, invalid owed format, underpayment guard, empty owed without noise, clear paid reset, injected owed generation, sample preload and restore, empty flat file disabling submit, per-line error rows as Line N: message, gateway failure alert inside the output region, no-change rows without tokens, unknown denomination names skipped, snackbar timing including unmount cleanup, random owed always parseable across 20 sampled values.
 
+## Ticket 24 - UX and responsive polish (2026-07-04)
+
+- Tests: no behavior changes, so the check is that all 108 existing tests, lint, and build stay green (they do) plus mechanical rule checks: no inline style props, no fetch outside adapters.
+- Visual: dev servers were already running with HMR; desktop no-page-scroll layout and narrow-viewport stacking are CSS-asserted (100vh + internal panel scroll, single-column media query) and pending the human's eyeball pass in the live app.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

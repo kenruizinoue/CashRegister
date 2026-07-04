@@ -149,6 +149,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - Human requirement with an explicit integration scenario: lock the payment grid once paid covers owed; owed 300.10, four $100 taps reach 400 accepted, the fifth click is dead. AI implemented via the shared token's disabled prop driven by paid >= owed (only when owed is valid), with Clear Paid unlocking.
 - Interaction with the overpayment notice, resolved by AI and locked in tests: once coverage disables the grid, overpaying is only possible when a single tap jumps from below owed to above it; exact coverage notices plainly and locks without the overpayment flag. The earlier overpayment test was rewritten for the jump scenario because its old second tap is now correctly impossible.
 
+## Ticket 24 - UX and responsive polish (2026-07-04)
+
+- AI (Claude Code) did a CSS-only polish: quiet consistent form-control styling moved to the global styles.css (buttons, inputs, focus-visible outlines, disabled states), long output lines wrap with overflow-wrap anywhere, snackbar gains z-index and a viewport-relative max width, primary submit buttons weighted, narrow-viewport padding and header wrap, prefers-reduced-motion kills animations. No behavior changes, so per the standard no new tests were added; all 108 existing tests, lint, and build stayed green.
+- Rules verified mechanically before polishing: zero inline style props and zero fetch calls outside adapters/ (grep), the denomination visual is one shared component.
+
 ## Correction - stray root npm install (2026-07-03, Ticket 20)
 
 - Human caught an AI mistake: @testing-library/user-event was installed from the repo root (the shell was not in frontend/), creating a root package.json, package-lock.json, and node_modules. Local tests still passed because Node resolves modules upward, which would have masked the problem until CI's npm ci ran strictly inside frontend/ and failed. Fix: root artifacts deleted, dependency installed in frontend/package.json, npm ci re-run from the lockfile, all 27 tests plus lint and build green again.

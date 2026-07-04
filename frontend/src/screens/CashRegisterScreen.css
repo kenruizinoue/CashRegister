@@ -35,6 +35,7 @@
   color: inherit;
   background: none;
   border: none;
+  border-radius: 0;
   border-bottom: 2px solid transparent;
   padding: 0.25rem 0.6rem;
   cursor: pointer;
@@ -133,13 +134,23 @@
   padding: 0.45rem;
 }
 
+.cashier-panel__actions button[type='submit'],
+.flatfile-panel__actions button[type='submit'] {
+  font-weight: 600;
+}
+
 @media (max-width: 800px) {
   .cash-register {
     height: auto;
     overflow: visible;
+    padding: 0.6rem 0.75rem 1rem;
   }
 
   .cash-register__panels {
     grid-template-columns: 1fr;
+  }
+
+  .cash-register__header {
+    flex-wrap: wrap;
   }
 }

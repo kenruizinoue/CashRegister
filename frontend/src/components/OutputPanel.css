@@ -48,6 +48,7 @@
 .output-panel__text {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.85rem;
+  overflow-wrap: anywhere;
 }
 
 .output-panel__row--error .output-panel__text {

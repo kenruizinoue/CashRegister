@@ -136,3 +136,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5), from a human-authored UI specification.
 - Task: TDD implementation of the full Cash Register UI (tabs, payment grid, shared denomination tokens, output panel, snackbar) across 8 modules, plus a live two-server smoke check.
+
+## Ticket 24 - UX and responsive polish (2026-07-04)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: CSS-only console polish (global form controls, focus states, wrapping, reduced motion, narrow viewport) with mechanical boundary-rule verification.
