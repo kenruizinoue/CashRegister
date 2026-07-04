@@ -68,6 +68,48 @@ test('cashier workflow: tap payment, calculate, read change', async ({ page }) =
   await expect(page.getByText('3 quarters,1 dime,3 pennies')).toBeVisible()
 })
 
+test('backend unreachable surfaces the failure message in the output panel', async ({
+  page,
+}) => {
+  await page.route('**/change', (route) => route.abort())
+  await page.goto('/')
+
+  await page.getByLabel('Amount owed').fill('1.00')
+  await page.getByRole('button', { name: 'Add $1', exact: true }).click()
+  await page.getByRole('button', { name: 'Calculate Change' }).click()
+
+  await expect(page.getByRole('alert')).toHaveText('backend unreachable')
+  await expect(page.getByText('No output yet')).toBeHidden()
+})
+
+test('payment notice appears in a snackbar and auto-dismisses on its own', async ({ page }) => {
+  await page.goto('/')
+
+  await page.getByRole('button', { name: 'Add $5', exact: true }).click()
+
+  const notice = page.getByRole('status')
+  await expect(notice).toHaveText(/Added \$5/)
+  await expect(notice).toBeHidden({ timeout: 5000 })
+})
+
+test('output persists when switching tabs', async ({ page }) => {
+  await mockChange(page, {
+    results: [
+      { line_number: 1, input: '1.97,2.00', status: 'ok', change: '3 pennies', error: null },
+    ],
+  })
+  await page.goto('/')
+
+  await page.getByRole('tab', { name: 'Flat File' }).click()
+  await page.getByLabel('Flat file lines').fill('1.97,2.00')
+  await page.getByRole('button', { name: 'Calculate Change' }).click()
+  await expect(page.getByText('3 pennies', { exact: true })).toBeVisible()
+
+  await page.getByRole('tab', { name: 'Cashier' }).click()
+  await expect(page.getByText('3 pennies', { exact: true })).toBeVisible()
+  await expect(page.getByLabel('Amount owed')).toBeVisible()
+})
+
 test('per-line errors render as Line N rows in the browser', async ({ page }) => {
   await mockChange(page, {
     results: [

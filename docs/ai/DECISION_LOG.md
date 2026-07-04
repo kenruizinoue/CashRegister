@@ -160,6 +160,10 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) wrote playwright.config.ts (testDir e2e, retries 1, dedicated port 5174 webServer with reuseExistingServer outside CI) and three specs: the flat file workflow with the preloaded sample, the cashier tap-and-calculate workflow, and per-line error rows in a real browser. The API is mocked at the network layer with page.route per the standard; backend correctness stays proven by backend tests.
 - One iteration during the run: Playwright role-name matching is substring by default, so 'Add $1' also matched the $10 and $100 buttons (strict mode violation); fixed with exact matching. Playwright artifacts gitignored; e2e added to frontend CI as its own job with the chromium install step.
 
+## Refinement - e2e audit additions (2026-07-04, Ticket 25)
+
+- Human directed an audit of the e2e suite and named two gaps: backend-unreachable (route aborted, failure message must show) and snackbar behavior (notice appears on a payment click and auto-dismisses on its own). AI's audit surfaced one more browser-only behavior with no coverage: output persisting across tab switches, since the output panel lives outside the tabpanels. All three added; 6 e2e specs passing, including a real-time auto-dismiss wait rather than mocked timers.
+
 ## Correction - stray root npm install (2026-07-03, Ticket 20)
 
 - Human caught an AI mistake: @testing-library/user-event was installed from the repo root (the shell was not in frontend/), creating a root package.json, package-lock.json, and node_modules. Local tests still passed because Node resolves modules upward, which would have masked the problem until CI's npm ci ran strictly inside frontend/ and failed. Fix: root artifacts deleted, dependency installed in frontend/package.json, npm ci re-run from the lockfile, all 27 tests plus lint and build green again.
