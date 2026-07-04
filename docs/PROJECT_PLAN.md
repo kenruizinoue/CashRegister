@@ -373,7 +373,7 @@ Acceptance criteria:
 
 - No screen or hook imports fetch or adapter internals; they depend on the gateway interface.
 
-### Ticket 19 - HTTP API adapter `[ ]`
+### Ticket 19 - HTTP API adapter `[x]`
 
 Objective:
 

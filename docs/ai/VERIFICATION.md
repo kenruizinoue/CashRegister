@@ -114,6 +114,12 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: TDD red-green observed (module-not-found failure, then 4 passed across 2 files); `npm run lint` clean; `npm run build` typechecks the types under strict noUnused rules.
 - Edge cases: types-only ticket; contract exercised via a fake gateway implementation, an error entry literal, and the GatewayError class.
 
+## Ticket 19 - HTTP API adapter (2026-07-03)
+
+- Tests: TDD red-green observed (module-not-found failure, then 12 passed across 3 files, 8 new); `npm run lint` clean; `npm run build` typechecks. All adapter tests run against stubbed fetch, no backend involved.
+- Edge cases exercised: happy-path envelope mapping including a per-line error entry, config omitted entirely, full config with null seed omitted from the body, base url prefixing, HTTP 422 as GatewayError with status, JSON parse failure, envelope missing the results array, network-level fetch rejection.
+- Human-requested strengthening, per-entry validation: 8 more red-first cases (null entry, non-object entry, unknown status, string line_number, missing input, numeric change, object error field, missing status), all GatewayError after the type-guard fix; 20 frontend tests total.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

@@ -119,6 +119,12 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) generated src/domain/change.ts and its test. Used directly after one AI cleanup: the test fake initially consumed the optional config parameter with a no-op ternary to satisfy noUnusedParameters; simplified by implementing the interface with fewer parameters, which TypeScript permits.
 - AI decisions, accepted without change: domain types use frontend camelCase (lineNumber) and the adapter owns the snake_case translation, keeping the wire format out of screens; GatewayError defined in domain so hooks can catch a typed failure without importing adapter internals; config fields optional so callers state only what they override.
 
+## Ticket 19 - HTTP API adapter (2026-07-03)
+
+- AI (Claude Code) generated the adapter and its mocked-fetch tests. Used directly, no manual modification.
+- AI decisions, accepted without change: factory function taking baseUrl with the default read from VITE_API_BASE_URL (empty means same-origin via the dev proxy), so tests inject explicit urls and production wiring stays configurable; the request body includes only the config fields the caller set, and a null seed is omitted so the backend treats it as unseeded; every failure mode (network throw, non-2xx, JSON parse failure, missing results key) converges on GatewayError with a human-readable message, so hooks handle exactly one error type; the API snake_case shape exists only inside this module.
+- Human requirement: validate every entry in the results array, not just the envelope. AI added an isApiLineResult type guard (field types, status literal, string-or-null change/error) applied with Array.every; any unknown shape now throws GatewayError. TDD: 8 invalid-entry cases red first.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.
