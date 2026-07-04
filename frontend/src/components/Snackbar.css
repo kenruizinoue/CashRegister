@@ -1,0 +1,31 @@
+.snackbar {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.45rem 0.9rem 0.35rem;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: 4px;
+  background: Canvas;
+  font-size: 0.8rem;
+  box-shadow: 0 2px 8px color-mix(in srgb, currentColor 20%, transparent);
+}
+
+.snackbar__progress {
+  display: block;
+  height: 2px;
+  background: currentColor;
+  animation: snackbar-progress 2500ms linear forwards;
+}
+
+@keyframes snackbar-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
+}

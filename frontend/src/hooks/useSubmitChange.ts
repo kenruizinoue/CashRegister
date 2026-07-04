@@ -1,20 +1,16 @@
-// Submit-workflow state for the change screen: input text, in-flight
-// guard, results, and gateway failure translation.
+// Shared submit workflow: in-flight guard, results, failure translation.
+// Both tabs feed lines into the same submission state.
 
 import { useState } from 'react'
 import { GatewayError } from '@/domain/change'
 import type { ChangeGateway, LineResult } from '@/domain/change'
-import { toLines } from '@/utils/lines'
 
-export function useChangeWorkflow(gateway: ChangeGateway) {
-  const [text, setText] = useState('')
+export function useSubmitChange(gateway: ChangeGateway) {
   const [results, setResults] = useState<LineResult[] | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [failure, setFailure] = useState<string | null>(null)
 
-  const lines = toLines(text)
-
-  async function submit(): Promise<void> {
+  async function submit(lines: string[]): Promise<void> {
     if (submitting || lines.length === 0) {
       return
     }
@@ -30,5 +26,5 @@ export function useChangeWorkflow(gateway: ChangeGateway) {
     }
   }
 
-  return { text, setText, lines, results, submitting, failure, submit }
+  return { results, submitting, failure, submit }
 }

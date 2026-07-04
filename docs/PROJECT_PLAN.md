@@ -445,23 +445,27 @@ Acceptance criteria:
 
 - Helpers pure and fully unit tested; screens/hooks use them instead of inline logic.
 
-### Ticket 23 - UI and features implementation `[ ]`
+### Ticket 23 - UI and features implementation `[x]`
 
-Objective:
+Objective (user-provided spec, 2026-07-03):
 
-- Implement the app UI and its features. The concrete feature requirements are provided by the user as input when this ticket is invoked; scope, TDD cases, and acceptance criteria are refined then, before implementation starts.
+- Single screen "Cash Register UI": Cashier and Flat File tabs, input panel left and Output panel right, no page scroll on desktop (panels scroll internally), stacked on narrow screens.
+- Cashier tab: amount owed input with Generate Owed (random), read-only paid total, tappable payment grid ($1 to $100 bills, 25c to 1c coins), Calculate Change (disabled while submitting or invalid), Clear Paid, inline validation message.
+- Flat File tab: textarea preloaded with the sample input, Calculate Change, Load Sample.
+- Output panel: one row per line with count list plus visual bill/coin tokens, errors as "Line N: message", empty state "No output yet".
+- One shared denomination component for payment buttons and output tokens; snackbar for payment notices only with auto-dismiss progress; quiet dense console look.
 
 TDD work:
 
-- Failing screen/unit tests first for each feature in the provided requirements.
+- Failing tests first per module: money/changeText utils, denomination catalog, DenominationToken, Snackbar (fake timers), OutputPanel, useSubmitChange, full screen suite with fake gateway.
 
 Edge cases:
 
-- Defined per feature when the requirements are provided.
+- Invalid and empty owed amounts, underpayment guard, no-change rows without tokens, unknown denomination names skipped in tokens, snackbar timer cleanup on unmount, empty flat file disabling submit.
 
 Acceptance criteria:
 
-- Every provided feature requirement covered by tests and implemented; boundary rules of standards/ts-react-vite.md hold.
+- Spec behaviors covered by tests (104 frontend tests green); boundary rules hold (gateway injected, no fetch outside adapters); supersedes the Ticket 20 screen (file pick replaced by the spec's Load Sample flow).
 
 ### Ticket 24 - UX and responsive polish `[ ]`
 

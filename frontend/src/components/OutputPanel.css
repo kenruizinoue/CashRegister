@@ -1,0 +1,61 @@
+.output-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border: 1px solid color-mix(in srgb, currentColor 15%, transparent);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  overflow-y: auto;
+}
+
+.output-panel__title {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+}
+
+.output-panel__empty {
+  margin: 0;
+  opacity: 0.6;
+  font-size: 0.9rem;
+}
+
+.output-panel__failure {
+  margin: 0;
+  color: #c0392b;
+  font-size: 0.9rem;
+}
+
+.output-panel__rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.output-panel__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.output-panel__text {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85rem;
+}
+
+.output-panel__row--error .output-panel__text {
+  color: #c0392b;
+}
+
+.output-panel__tokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}

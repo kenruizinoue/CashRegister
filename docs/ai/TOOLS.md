@@ -131,3 +131,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: TDD extraction of pure line-splitting and result-display helpers into utils/ with unit tests.
+
+## Ticket 23 - UI and features implementation (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5), from a human-authored UI specification.
+- Task: TDD implementation of the full Cash Register UI (tabs, payment grid, shared denomination tokens, output panel, snackbar) across 8 modules, plus a live two-server smoke check.

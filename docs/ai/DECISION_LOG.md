@@ -135,6 +135,20 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) generated utils/lines.ts (toLines) and utils/results.ts (resultText) with unit tests, then swapped the hook's inline splitter and the screen's inline ternary to use them. Used directly, no manual modification.
 - AI decisions, accepted without change: only helpers that already had two callers or a display rule worth naming were extracted, avoiding speculative utils; resultText degrades to an empty string on null fields so the table never renders the word null; existing hook and screen tests passing unchanged after the swap prove the refactor was behavior-neutral.
 
+## Ticket 23 - UI and features implementation (2026-07-03)
+
+- Human provided the full UI spec (tabs, panels, payment grid, output tokens, snackbar, dense console). AI implemented it TDD across 8 modules. Supersessions at human direction via the spec: the Ticket 20 ChangeScreen and its file-pick flow were removed in favor of the Flat File tab with Load Sample; useChangeWorkflow was reshaped into useSubmitChange (lines passed per call, shared by both tabs) and its tests rewritten accordingly.
+- AI decisions, accepted without change: DenominationToken is the single shared bill/coin visual, a button when pressable and a counted static token otherwise, satisfying the one-component rule; output tokens map backend change-line names through a lookup, silently skipping unknown names (EUR) so text remains authoritative; client-side validation guards obvious invalid actions (bad owed format, underpayment) while the backend stays authoritative; the paid total was changed from an output element to a span because output carries an implicit status role that collided with the snackbar in accessibility queries (caught by a failing test); Generate Owed takes an injectable generator defaulting to a random 0.01-99.99 amount; snackbar restarts via a keyed remount and is used for payment notices only per spec.
+
+## Refinement - overpayment notice (2026-07-04, Ticket 23)
+
+- Human feedback from live testing: the payment snackbar said only "Added X" even when the tap pushed the paid total past the owed amount. AI added the overpayment suffix ("Added $1, paid exceeds owed") computed against the tap's resulting total, kept plain while no valid owed amount is set and when paid exactly equals owed. TDD red first; 106 frontend tests green.
+
+## Refinement - payment lock on coverage (2026-07-04, Ticket 23)
+
+- Human requirement with an explicit integration scenario: lock the payment grid once paid covers owed; owed 300.10, four $100 taps reach 400 accepted, the fifth click is dead. AI implemented via the shared token's disabled prop driven by paid >= owed (only when owed is valid), with Clear Paid unlocking.
+- Interaction with the overpayment notice, resolved by AI and locked in tests: once coverage disables the grid, overpaying is only possible when a single tap jumps from below owed to above it; exact coverage notices plainly and locks without the overpayment flag. The earlier overpayment test was rewritten for the jump scenario because its old second tap is now correctly impossible.
+
 ## Correction - stray root npm install (2026-07-03, Ticket 20)
 
 - Human caught an AI mistake: @testing-library/user-event was installed from the repo root (the shell was not in frontend/), creating a root package.json, package-lock.json, and node_modules. Local tests still passed because Node resolves modules upward, which would have masked the problem until CI's npm ci ran strictly inside frontend/ and failed. Fix: root artifacts deleted, dependency installed in frontend/package.json, npm ci re-run from the lockfile, all 27 tests plus lint and build green again.
