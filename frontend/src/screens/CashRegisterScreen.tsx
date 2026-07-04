@@ -54,10 +54,8 @@ export function CashRegisterScreen({
   }
 
   function addPayment(denomination: UiDenomination) {
-    const newPaid = paidCents + denomination.valueCents
-    setPaidCents(newPaid)
-    const overpaid = owedCents !== null && newPaid > owedCents
-    notify(`Added ${denomination.label}${overpaid ? ', paid exceeds owed' : ''}`)
+    setPaidCents((cents) => cents + denomination.valueCents)
+    notify(`Added ${denomination.label}`)
   }
 
   function clearPaid() {

@@ -38,26 +38,25 @@ test('tapping payment denominations accumulates the paid total and notifies', as
   expect(screen.getByRole('status')).toHaveTextContent('Added 25¢')
 })
 
-test('the payment notice flags overpayment when a tap jumps past owed', async () => {
+test('payment notices always read Added $X, even when a tap jumps past owed', async () => {
   render(<CashRegisterScreen gateway={makeGateway([])} />)
 
   setOwed('5.00')
   await userEvent.click(screen.getByRole('button', { name: 'Add $1' }))
   expect(screen.getByRole('status')).toHaveTextContent('Added $1')
-  expect(screen.getByRole('status')).not.toHaveTextContent('exceeds')
 
   await userEvent.click(screen.getByRole('button', { name: 'Add $20' }))
-  expect(screen.getByRole('status')).toHaveTextContent('Added $20, paid exceeds owed')
+  expect(screen.getByRole('status')).toHaveTextContent('Added $20')
+  expect(screen.getByRole('status')).not.toHaveTextContent('exceeds')
 })
 
-test('exact coverage notices plainly and locks without an overpayment flag', async () => {
+test('exact coverage notices plainly and locks the grid', async () => {
   render(<CashRegisterScreen gateway={makeGateway([])} />)
 
   setOwed('5.00')
   await userEvent.click(screen.getByRole('button', { name: 'Add $5' }))
 
   expect(screen.getByRole('status')).toHaveTextContent('Added $5')
-  expect(screen.getByRole('status')).not.toHaveTextContent('exceeds')
   expect(screen.getByRole('button', { name: 'Add $1' })).toBeDisabled()
 })
 

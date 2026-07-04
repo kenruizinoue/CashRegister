@@ -143,6 +143,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 ## Refinement - overpayment notice (2026-07-04, Ticket 23)
 
 - Human feedback from live testing: the payment snackbar said only "Added X" even when the tap pushed the paid total past the owed amount. AI added the overpayment suffix ("Added $1, paid exceeds owed") computed against the tap's resulting total, kept plain while no valid owed amount is set and when paid exactly equals owed. TDD red first; 106 frontend tests green.
+- Reversed later the same day (see the post-docs entry): the human decided notices should always read plain "Added $X" and the suffix was removed.
+
+## Reversal - plain payment notices (2026-07-04, post Prompt 7)
+
+- Human rejected the earlier overpayment wording: the snackbar must always say just "Added $X". The suffix logic was removed and the two affected tests rewritten (plain notice even when a tap jumps past owed; exact coverage still locks the grid). The grid-lock behavior itself is unchanged. TDD red first on the rewritten test; 112 unit tests, 6 e2e specs, lint, and build green.
 
 ## Refinement - payment lock on coverage (2026-07-04, Ticket 23)
 

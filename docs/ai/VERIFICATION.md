@@ -138,7 +138,7 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 ## Ticket 23 - UI and features implementation (2026-07-03)
 
 - Tests: TDD red-green observed (9 test files failing before implementation, then 104 passed across 13 files, 59 new); one genuine mid-implementation catch: the paid-total output element's implicit status role collided with the snackbar and was caught by the accumulation test; `npm run lint` clean; `npm run build` typechecks. Live boot of backend plus frontend confirmed the page serves and a proxy submit returns correct change; servers stopped after.
-- Refinement (2026-07-04): overpayment notice tested red-first; exceeding payment appends the notice, no owed set stays plain.
+- Refinement (2026-07-04): overpayment notice tested red-first; later reversed at human direction, notices are always plain "Added $X" (rewritten tests red-first, full suite plus e2e green after removal).
 - Refinement (2026-07-04): payment lock integration test red-first exactly as specified by the human (300.10 owed, 4x $100 accepted to 400, 5th click dead, 1 cent also locked, Clear Paid unlocks); exact-coverage case locks with a plain notice; 108 frontend tests total.
 - Edge cases exercised: paid accumulation across bills and coins, invalid owed format, underpayment guard, empty owed without noise, clear paid reset, injected owed generation, sample preload and restore, empty flat file disabling submit, per-line error rows as Line N: message, gateway failure alert inside the output region, no-change rows without tokens, unknown denomination names skipped, snackbar timing including unmount cleanup, random owed always parseable across 20 sampled values.
 
