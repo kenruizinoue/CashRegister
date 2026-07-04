@@ -104,7 +104,7 @@ Acceptance criteria:
 
 - Strategy selection matches the divisor rule on owed cents; every random result sums exactly to the change; tests are deterministic via the injected source.
 
-### Ticket 6 - Single-record processor and formatting `[ ]`
+### Ticket 6 - Single-record processor and formatting `[x]`
 
 Objective:
 

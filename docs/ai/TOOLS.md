@@ -31,3 +31,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: TDD implementation of strategy selection and the random change strategy, using injected fake random sources to prove selection behavior deterministically.
+
+## Ticket 6 - Single-record processor and formatting (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: TDD implementation of change-line formatting and the single-transaction processor, with a hand-recomputed correction to one AI-drafted expected value.

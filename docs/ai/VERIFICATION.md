@@ -29,6 +29,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Human-requested addition: exact-sum property matrix over every combination of 20 seeds and 13 amounts (260 cases), also asserting no zero counts leak into results. The narrower single-seed exact-sum test was then removed as redundant at human direction; suite stands at 340 tests, all passing.
 - Edge cases exercised: README random sample (3.33,5.00 sums to 167), zero change under a divisible owed, 1 cent change, seeded reproducibility, largest-first ordering of random results, custom divisor selecting and not selecting random, divisor 1 always random, divisor 0 and negative rejected, underpayment propagation through make_change.
 
+## Ticket 6 - Single-record processor and formatting (2026-07-03)
+
+- Tests: TDD red-green observed (collection error before implementation, then 353 passed total, 13 new); `ruff check .` clean.
+- Edge cases exercised: README sample strings byte for byte, singular vs plural including 1 nickel and pennies irregular plural, all five denominations at once, single denomination, empty counts rendering "no change" for both divisible and non-divisible owed, unsorted counts rendered largest-first, random sample parsed back and summed to exactly 167, custom policy honored, underpayment propagation.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

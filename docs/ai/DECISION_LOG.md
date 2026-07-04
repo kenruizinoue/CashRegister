@@ -34,6 +34,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - Human rejection of AI output: the original single-seed exact-sum test (test_sums_exactly, 6 amounts under seed 7) was removed as redundant because the seed-amount matrix strictly covers it. Suite is 340 tests after removal.
 - AI decisions, accepted without change: strategies are pure functions of (amount, currency, rng) and ChangePolicy.strategy_for is the single selection point, so a future special case is a new strategy plus one selection change (README hint 2) without touching existing strategies; the divisor is plain policy config (README hint 1); randomness proven absent from the minimum path with a fake rng that fails the test if consulted; random strategy draws one eligible denomination at a time so the Currency-guaranteed 1-unit coin makes exact coverage always reachable; divisor validated >= 1 at construction.
 
+## Ticket 6 - Single-record processor and formatting (2026-07-03)
+
+- AI (Claude Code) generated tests/test_processor.py and src/cash_register/processor.py. Used directly except one AI self-correction before the first run: the custom-policy test initially expected a wrong minimal breakdown for 167 cents (1 dollar,1 quarter,4 dimes,2 pennies); corrected to 1 dollar,2 quarters,1 dime,1 nickel,2 pennies by recomputing by hand.
+- AI decisions, accepted without change: format_change re-sorts counts largest-first instead of trusting caller ordering, so rendering is deterministic no matter which strategy produced the counts; the "no change" literal is a named constant (NO_CHANGE) since the CLI, API, and UI will all need the same sentinel; the random README sample is asserted by parsing the formatted line back and checking it sums to 167, which pins format and math without pinning one seed's arbitrary breakdown.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.
