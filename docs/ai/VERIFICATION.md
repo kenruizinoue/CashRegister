@@ -150,7 +150,7 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 ## Ticket 25 - E2E with Playwright (2026-07-04)
 
 - Tests: 3 Playwright specs passing in real Chromium against the Vite dev server on the dedicated port (flat file sample workflow with token assertions, cashier tap-pay-calculate, per-line error rows); one strict-mode locator failure caught and fixed during the first run. Unit suite (108), lint, and build re-verified green alongside.
-- CI: e2e job added to the frontend workflow; green run on GitHub to confirm on the next approved push.
+- CI: e2e job added to the frontend workflow; confirmed green on origin main (commit b0b2b79), Frontend CI now running lint, unit tests, build, and the Playwright e2e job.
 
 ## Restructure - move Python project into backend/ (2026-07-03)
 
