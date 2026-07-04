@@ -39,6 +39,10 @@ class TestFormatChange:
     def test_single_denomination(self):
         assert format_change({usd("penny"): 3}) == "3 pennies"
 
+    def test_bill_singular_and_plural(self):
+        counts = {usd("hundred dollar bill"): 2, usd("five dollar bill"): 1}
+        assert format_change(counts) == "2 hundred dollar bills,1 five dollar bill"
+
     def test_empty_counts_is_no_change(self):
         assert format_change({}) == "no change"
 

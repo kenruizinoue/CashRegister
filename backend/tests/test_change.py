@@ -53,9 +53,29 @@ class TestMinimumChangeUsd:
     def test_only_dollars(self):
         assert by_name(minimum_change(300, USD)) == {"dollar": 3}
 
-    def test_large_amount(self):
+    def test_large_amount_uses_bills(self):
         counts = minimum_change(123456, USD)
-        assert by_name(counts) == {"dollar": 1234, "quarter": 2, "nickel": 1, "penny": 1}
+        assert by_name(counts) == {
+            "hundred dollar bill": 12,
+            "twenty dollar bill": 1,
+            "ten dollar bill": 1,
+            "dollar": 4,
+            "quarter": 2,
+            "nickel": 1,
+            "penny": 1,
+        }
+
+    def test_minimum_change_spans_every_bill(self):
+        counts = minimum_change(18675, USD)
+        assert by_name(counts) == {
+            "hundred dollar bill": 1,
+            "fifty dollar bill": 1,
+            "twenty dollar bill": 1,
+            "ten dollar bill": 1,
+            "five dollar bill": 1,
+            "dollar": 1,
+            "quarter": 3,
+        }
 
     def test_counts_are_ordered_largest_first(self):
         counts = minimum_change(141, USD)

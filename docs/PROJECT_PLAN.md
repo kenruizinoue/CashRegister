@@ -4,7 +4,7 @@
 
 Build the Creative Cash Draw Solutions change calculator (README.md): read a flat file where each line is `owed,paid`, output one line of change denominations per input line, formatted like `1 dollar,2 quarters,1 nickel`. Minimum physical change by default; when the owed amount (in cents) is divisible by 3, denominations are chosen randomly but still sum exactly to the change. Deliver as a Python core + CLI (Phase 1), a FastAPI adapter (Phase 2), and a React + Vite frontend (Phase 3). Business logic lives only in the Python core; CLI, API, and UI are thin adapters.
 
-Confirmed decisions: integer-cents arithmetic (never floats), divisibility checked on owed cents, USD set penny/nickel/dime/quarter/dollar in a configurable currency table (France hint), configurable divisor (default 3), injectable random source, per-line errors keep processing, `no change` for exact payment, blank input lines skipped, output always rendered largest to smallest, per-denomination singular/plural names.
+Confirmed decisions: integer-cents arithmetic (never floats), divisibility checked on owed cents, USD set penny/nickel/dime/quarter/dollar plus five/ten/twenty/fifty/hundred dollar bills in a configurable currency table (France hint), configurable divisor (default 3), injectable random source, per-line errors keep processing, `no change` for exact payment, blank input lines skipped, output always rendered largest to smallest, per-denomination singular/plural names.
 
 Process rule: every ticket appends its entries to docs/ai/DECISION_LOG.md, docs/ai/VERIFICATION.md, and docs/ai/TOOLS.md in the same turn the work happens (see CLAUDE.md).
 

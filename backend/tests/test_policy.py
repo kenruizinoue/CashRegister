@@ -21,6 +21,13 @@ class ForbiddenRng:
         raise AssertionError("random source must not be used for minimum change")
 
 
+class LargestPickingRng:
+    """Fake random source that always picks the largest eligible denomination."""
+
+    def choice(self, options):
+        return options[0]
+
+
 def total(counts):
     return sum(d.value_cents * n for d, n in counts.items())
 
@@ -87,6 +94,18 @@ class TestRandomChange:
         counts = random_change(167, USD, random.Random(3))
         values = [d.value_cents for d in counts]
         assert values == sorted(values, reverse=True)
+
+    def test_random_strategy_can_return_bills(self):
+        counts = random_change(30000, USD, LargestPickingRng())
+        assert by_name(counts) == {"hundred dollar bill": 3}
+
+    def test_random_path_through_make_change_can_return_bills(self):
+        counts = make_change(
+            Transaction(owed_cents=300, paid_cents=10300),
+            ChangePolicy(),
+            rng=LargestPickingRng(),
+        )
+        assert by_name(counts) == {"hundred dollar bill": 1}
 
 
 class TestPolicyConfig:

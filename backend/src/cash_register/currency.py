@@ -42,6 +42,11 @@ class Currency:
 USD = Currency(
     code="USD",
     denominations=(
+        Denomination("hundred dollar bill", "hundred dollar bills", 10000),
+        Denomination("fifty dollar bill", "fifty dollar bills", 5000),
+        Denomination("twenty dollar bill", "twenty dollar bills", 2000),
+        Denomination("ten dollar bill", "ten dollar bills", 1000),
+        Denomination("five dollar bill", "five dollar bills", 500),
         Denomination("dollar", "dollars", 100),
         Denomination("quarter", "quarters", 25),
         Denomination("dime", "dimes", 10),

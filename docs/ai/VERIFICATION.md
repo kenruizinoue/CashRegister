@@ -46,6 +46,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Edge cases exercised: happy path exit code and output, seeded reproducibility across runs, divisor flag forcing the minimum strategy on the README random line, per-line error lines with exit code 0, missing input file (exit 1, stderr message), unwritable output path (exit 1), divisor 0 (exit 2), missing args (argparse exit 2), python -m subprocess entry.
 - Manual primary workflow check: ran both `python -m cash_register.cli` and the installed `cash-register` script against the README sample file; deterministic lines matched the README byte for byte and two independent random third lines each summed to exactly 167 cents; missing-input run printed a clear error and exited 1.
 
+## Extension - USD bills (2026-07-03)
+
+- Tests: TDD red-green observed (exactly the 5 new bill tests failed, then 381 passed total); `ruff check .` clean. The 260-case seed sweep and byte-for-byte README assertions passed unchanged, confirming bills do not disturb amounts under five dollars.
+- Edge cases exercised: minimum change spanning every bill in one amount (186.75), large amount preferring bills (1234.56), random strategy returning only hundred dollar bills via a largest-picking fake, the random path through make_change returning a bill, bill singular vs plural formatting.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

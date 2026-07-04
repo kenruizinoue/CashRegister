@@ -49,6 +49,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) generated tests/test_cli.py, src/cash_register/cli.py, and the [project.scripts] entry. Used directly, no manual modification.
 - AI decisions, accepted without change: exit code convention 0 success (including runs whose output contains per-line error lines, since the file was processed), 1 for I/O failures (missing input, unwritable output), 2 for usage and config errors (matching argparse's own convention, used for the invalid divisor); --seed and --divisor exposed as the two hinted configuration points; Random(None) seeds from system entropy so omitting --seed keeps real randomness; the python -m entry point tested via subprocess to cover the __main__ guard; CLI contains no domain logic, only arg parsing, policy construction, delegation, and error translation.
 
+## Extension - USD bills (2026-07-03)
+
+- Human requirement: extend the USD table with 5, 10, 20, 50, and 100 dollar bills, with tests proving both strategies can return bills. This supersedes the bootstrap decision that capped the table at the dollar.
+- AI (Claude Code) implemented it TDD (5 new tests red first, then the table extension). AI decisions, accepted without change: bill names spelled out as 'five dollar bill'/'five dollar bills' etc so change lines stay readable English; the prior large-amount minimum test updated because bills legitimately change its expected breakdown; random bill coverage proven with a largest-picking fake rng rather than seed hunting.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.

@@ -46,3 +46,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: TDD implementation of the argparse CLI adapter and console script registration, plus a scripted manual verification of both entry points against the README sample.
+
+## Extension - USD bills (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: TDD extension of the USD table with banknotes at human direction, proving bill coverage in both strategies with fake random sources.
