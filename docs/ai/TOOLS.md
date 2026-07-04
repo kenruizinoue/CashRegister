@@ -26,3 +26,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: TDD implementation of currency tables and greedy minimum change, including the human-requested euro configurability test.
+
+## Ticket 5 - Random change policy (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: TDD implementation of strategy selection and the random change strategy, using injected fake random sources to prove selection behavior deterministically.

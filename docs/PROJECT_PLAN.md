@@ -86,7 +86,7 @@ Acceptance criteria:
 
 - Counts are minimal for USD, sum of counts times values equals change exactly, domain error on underpayment.
 
-### Ticket 5 - Random change policy `[ ]`
+### Ticket 5 - Random change policy `[x]`
 
 Objective:
 

@@ -27,6 +27,13 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - Human requirement this ticket: prove the currency table is configurable with a euro test. Implemented as an inline EUR table in the tests (2 euro through 1 cent), not shipped as a package constant; shipping EUR is Ticket 14 scope.
 - AI decisions, accepted without change: Currency validates itself on construction (rejects empty, non-positive, duplicate values, and tables without a 1-unit denomination) and normalizes to largest-first, so greedy always terminates exactly; change_due (underpayment check) kept separate from minimum_change (denomination breakdown); greedy documented as exact-minimal for canonical tables like USD and EUR.
 
+## Ticket 5 - Random change policy (2026-07-03)
+
+- AI (Claude Code) generated tests/test_policy.py, src/cash_register/policy.py, and the InvalidConfigError domain error. Used directly, no manual modification.
+- Human addition to AI's test plan: a 20-seed by 13-amount exact-sum matrix (260 parametrized cases) hardening the random strategy beyond the single-seed property test AI proposed.
+- Human rejection of AI output: the original single-seed exact-sum test (test_sums_exactly, 6 amounts under seed 7) was removed as redundant because the seed-amount matrix strictly covers it. Suite is 340 tests after removal.
+- AI decisions, accepted without change: strategies are pure functions of (amount, currency, rng) and ChangePolicy.strategy_for is the single selection point, so a future special case is a new strategy plus one selection change (README hint 2) without touching existing strategies; the divisor is plain policy config (README hint 1); randomness proven absent from the minimum path with a fake rng that fails the test if consulted; random strategy draws one eligible denomination at a time so the Currency-guaranteed 1-unit coin makes exact coverage always reachable; divisor validated >= 1 at construction.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.

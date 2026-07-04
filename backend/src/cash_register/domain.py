@@ -19,6 +19,10 @@ class InvalidCurrencyError(CashRegisterError):
     """A currency table is not usable for making change."""
 
 
+class InvalidConfigError(CashRegisterError):
+    """A policy or processing configuration value is not usable."""
+
+
 @dataclass(frozen=True)
 class Transaction:
     """One sale: what was owed and what was paid, in integer cents."""

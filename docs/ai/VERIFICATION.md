@@ -23,6 +23,12 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: TDD red-green observed (collection error before implementation, then 65 passed total, 24 new); `ruff check .` clean.
 - Edge cases exercised: both README samples, exact payment (empty result), underpayment (domain error with message), 1 cent change, dollars-only change, large amounts, exact-sum property across 8 amounts, largest-first ordering, euro table end to end, unsorted table normalization, invalid tables (empty, duplicate values, non-positive value, missing 1-unit).
 
+## Ticket 5 - Random change policy (2026-07-03)
+
+- Tests: TDD red-green observed (collection error before implementation, then 86 passed total, 21 new); `ruff check .` clean. Determinism via injected fakes (smallest-picking rng, rng that raises if the minimum path consults it) and seeded random.Random.
+- Human-requested addition: exact-sum property matrix over every combination of 20 seeds and 13 amounts (260 cases), also asserting no zero counts leak into results. The narrower single-seed exact-sum test was then removed as redundant at human direction; suite stands at 340 tests, all passing.
+- Edge cases exercised: README random sample (3.33,5.00 sums to 167), zero change under a divisible owed, 1 cent change, seeded reproducibility, largest-first ordering of random results, custom divisor selecting and not selecting random, divisor 1 always random, divisor 0 and negative rejected, underpayment propagation through make_change.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.
