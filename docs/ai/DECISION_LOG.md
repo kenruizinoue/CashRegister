@@ -154,6 +154,12 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) did a CSS-only polish: quiet consistent form-control styling moved to the global styles.css (buttons, inputs, focus-visible outlines, disabled states), long output lines wrap with overflow-wrap anywhere, snackbar gains z-index and a viewport-relative max width, primary submit buttons weighted, narrow-viewport padding and header wrap, prefers-reduced-motion kills animations. No behavior changes, so per the standard no new tests were added; all 108 existing tests, lint, and build stayed green.
 - Rules verified mechanically before polishing: zero inline style props and zero fetch calls outside adapters/ (grep), the denomination visual is one shared component.
 
+## Ticket 25 - E2E with Playwright (2026-07-04)
+
+- Gate honored: the human explicitly invoked Ticket 25, which per prompts.md Prompt 6 is the E2E approval that the UI workflow is stable enough to lock.
+- AI (Claude Code) wrote playwright.config.ts (testDir e2e, retries 1, dedicated port 5174 webServer with reuseExistingServer outside CI) and three specs: the flat file workflow with the preloaded sample, the cashier tap-and-calculate workflow, and per-line error rows in a real browser. The API is mocked at the network layer with page.route per the standard; backend correctness stays proven by backend tests.
+- One iteration during the run: Playwright role-name matching is substring by default, so 'Add $1' also matched the $10 and $100 buttons (strict mode violation); fixed with exact matching. Playwright artifacts gitignored; e2e added to frontend CI as its own job with the chromium install step.
+
 ## Correction - stray root npm install (2026-07-03, Ticket 20)
 
 - Human caught an AI mistake: @testing-library/user-event was installed from the repo root (the shell was not in frontend/), creating a root package.json, package-lock.json, and node_modules. Local tests still passed because Node resolves modules upward, which would have masked the problem until CI's npm ci ran strictly inside frontend/ and failed. Fix: root artifacts deleted, dependency installed in frontend/package.json, npm ci re-run from the lockfile, all 27 tests plus lint and build green again.

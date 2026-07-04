@@ -485,7 +485,7 @@ Acceptance criteria:
 
 - UI rules of standards/ts-react-vite.md hold; all tests and build pass.
 
-### Ticket 25 - E2E with Playwright (approval-gated) `[ ]`
+### Ticket 25 - E2E with Playwright (approval-gated) `[x]`
 
 Objective:
 

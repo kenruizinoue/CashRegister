@@ -147,6 +147,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: no behavior changes, so the check is that all 108 existing tests, lint, and build stay green (they do) plus mechanical rule checks: no inline style props, no fetch outside adapters.
 - Visual: dev servers were already running with HMR; desktop no-page-scroll layout and narrow-viewport stacking are CSS-asserted (100vh + internal panel scroll, single-column media query) and pending the human's eyeball pass in the live app.
 
+## Ticket 25 - E2E with Playwright (2026-07-04)
+
+- Tests: 3 Playwright specs passing in real Chromium against the Vite dev server on the dedicated port (flat file sample workflow with token assertions, cashier tap-pay-calculate, per-line error rows); one strict-mode locator failure caught and fixed during the first run. Unit suite (108), lint, and build re-verified green alongside.
+- CI: e2e job added to the frontend workflow; green run on GitHub to confirm on the next approved push.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.
