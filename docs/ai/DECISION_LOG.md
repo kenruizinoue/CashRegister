@@ -16,6 +16,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) generated .github/workflows/backend-ci.yml. Used directly, no manual modification.
 - AI decisions, accepted without change: CI pins Python 3.12 (oldest widely-deployed version above the package floor of 3.11, catches accidental use of newer syntax since local dev runs 3.14); job scoped to backend/ via working-directory so the future frontend workflow stays independent; no paths filter so the check always reports on main.
 
+## Ticket 3 - Money parsing and validation (2026-07-03)
+
+- AI (Claude Code) generated tests/test_parser.py, src/cash_register/domain.py, and src/cash_register/parser.py. Used directly except one AI self-correction before the first run: the "," test case was initially asserted as a field-count error, but "," splits into two empty fields, so it was moved to the bad-amount cases.
+- AI decisions, accepted without change: strict regex validation (digits with at most 2 decimals) instead of accepting everything Decimal parses, so signs, exponents (1e2), NaN/Infinity, and currency symbols are rejected rather than silently coerced; amounts converted to integer cents via Decimal.scaleb, keeping the no-floats rule; paid-vs-owed comparison deferred to Ticket 4 because it is a calculation rule, not a parsing rule; zero amounts accepted at parse level.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.

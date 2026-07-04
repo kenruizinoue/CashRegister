@@ -50,7 +50,7 @@ Acceptance criteria:
 
 - Workflow file exists and is green on main after push.
 
-### Ticket 3 - Money parsing and validation `[ ]`
+### Ticket 3 - Money parsing and validation `[x]`
 
 Objective:
 
