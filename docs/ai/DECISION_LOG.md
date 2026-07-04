@@ -169,6 +169,12 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) audited the frontend for uncovered inputs, states, and error paths. Four real gaps were identified, all state-interaction boundaries on the cashier panel: snackbar replacement on rapid taps, grid locking when owed is entered after payment already covers it, unlocking when owed rises above paid, and the owed-zero boundary (instant lock, calculate enabled, line submitted as 0,0.00). All four tests passed on first run, so no fixes were needed; recorded honestly as regression locks, matching the Phase 2 pattern where a thin composition over well-tested parts audits clean.
 - Considered and deliberately not added: a client-side guard for the 1000-line backend cap in the flat file tab (the 422 surfaces through the existing failure alert; a friendlier message is a product decision, left for the self-critique).
 
+## Prompt 7 - Docs (2026-07-04)
+
+- AI (Claude Code) restructured README.md (original challenge text preserved verbatim, solution sections for all three phases with verified commands and test counts, documentation and submission-docs link sections), wrote docs/ARCHITECTURE.md (layers, boundary rules, data flow, the four extension points mapped to the challenge hints, known limitations), and replaced the leftover Vite-template frontend/README.md with a pointer.
+- SELF_CRITIQUE.md was filled with answers the human authored and supplied verbatim in his prompt; the AI transcribed and formatted them, and the file states that authorship split. This honors the CLAUDE.md rule that the critique is never answered for the human.
+- Log verification per Prompt 7: DECISION_LOG, VERIFICATION, and TOOLS were reviewed against the git history; entries exist for every ticket, correction, refinement, and audit, appended in the same turn each happened. One known gap, flagged not invented: TRANSCRIPT.md remains a placeholder until the human exports the raw conversation log at ship time.
+
 ## Correction - stray root npm install (2026-07-03, Ticket 20)
 
 - Human caught an AI mistake: @testing-library/user-event was installed from the repo root (the shell was not in frontend/), creating a root package.json, package-lock.json, and node_modules. Local tests still passed because Node resolves modules upward, which would have masked the problem until CI's npm ci ran strictly inside frontend/ and failed. Fix: root artifacts deleted, dependency installed in frontend/package.json, npm ci re-run from the lockfile, all 27 tests plus lint and build green again.

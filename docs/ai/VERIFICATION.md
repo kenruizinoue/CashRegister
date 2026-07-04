@@ -158,6 +158,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: 4 audit tests added (112 unit tests total), all green on first run; 6 e2e specs, lint, and build re-verified green for the phase close.
 - Edge cases added: rapid tap notice replacement (single status element showing the latest), lock on owed entered after covering payment without a stray validation message, unlock plus underpayment message when owed rises above paid, owed exactly zero locking the grid while keeping calculate enabled and submitting 0,0.00 rendering no change.
 
+## Prompt 7 - Docs (2026-07-04)
+
+- Verification: README test counts re-confirmed against live runs (447 backend, 112 frontend unit, 6 e2e); the API example block was carried over from the Ticket 15 live-verified run; CLI flags checked against the argparse definitions. No automated tests, docs work.
+- Log audit result: per-ticket entries in the three logs match the git history; the only gap is the transcript export, flagged in DECISION_LOG and TRANSCRIPT.md rather than reconstructed.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.
