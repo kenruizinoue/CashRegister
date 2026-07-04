@@ -68,7 +68,7 @@ Acceptance criteria:
 
 - Parser returns exact cents for valid lines; every invalid case raises the domain error; no float appears anywhere in the code path.
 
-### Ticket 4 - Minimum change calculation `[ ]`
+### Ticket 4 - Minimum change calculation `[x]`
 
 Objective:
 

@@ -21,3 +21,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: TDD implementation of the input parser (failing tests written and observed red first, then domain types and parser implementation, then green run and lint).
+
+## Ticket 4 - Minimum change calculation (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: TDD implementation of currency tables and greedy minimum change, including the human-requested euro configurability test.

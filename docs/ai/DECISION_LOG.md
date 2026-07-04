@@ -21,6 +21,12 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) generated tests/test_parser.py, src/cash_register/domain.py, and src/cash_register/parser.py. Used directly except one AI self-correction before the first run: the "," test case was initially asserted as a field-count error, but "," splits into two empty fields, so it was moved to the bad-amount cases.
 - AI decisions, accepted without change: strict regex validation (digits with at most 2 decimals) instead of accepting everything Decimal parses, so signs, exponents (1e2), NaN/Infinity, and currency symbols are rejected rather than silently coerced; amounts converted to integer cents via Decimal.scaleb, keeping the no-floats rule; paid-vs-owed comparison deferred to Ticket 4 because it is a calculation rule, not a parsing rule; zero amounts accepted at parse level.
 
+## Ticket 4 - Minimum change calculation (2026-07-03)
+
+- AI (Claude Code) generated tests/test_change.py, src/cash_register/currency.py, src/cash_register/change.py, and new domain errors. Used directly except one AI self-correction before the green run: the underpayment error message initially formatted cents with float division for display; replaced with integer divmod formatting to keep the no-floats rule absolute.
+- Human requirement this ticket: prove the currency table is configurable with a euro test. Implemented as an inline EUR table in the tests (2 euro through 1 cent), not shipped as a package constant; shipping EUR is Ticket 14 scope.
+- AI decisions, accepted without change: Currency validates itself on construction (rejects empty, non-positive, duplicate values, and tables without a 1-unit denomination) and normalizes to largest-first, so greedy always terminates exactly; change_due (underpayment check) kept separate from minimum_change (denomination breakdown); greedy documented as exact-minimal for canonical tables like USD and EUR.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.
