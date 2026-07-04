@@ -105,7 +105,8 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 
 ## Ticket 17 - Frontend CI workflow (2026-07-03)
 
-- Tests: the exact CI sequence executed locally (npm ci clean install from the lockfile, lint clean, 1 test passed, build succeeded); workflow YAML parsed and hygiene fields asserted programmatically. Green run on GitHub to confirm after the next approved push.
+- Tests: the exact CI sequence executed locally (npm ci clean install from the lockfile, lint clean, 1 test passed, build succeeded); workflow YAML parsed and hygiene fields asserted programmatically.
+- Confirmed: first Frontend CI run on origin main (commit d5d4d9e) completed with conclusion success, alongside a green Backend CI on the same commit.
 - Edge cases: none, CI wiring.
 
 ## Restructure - move Python project into backend/ (2026-07-03)
