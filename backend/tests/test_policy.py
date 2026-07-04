@@ -2,7 +2,7 @@ import random
 
 import pytest
 
-from cash_register.currency import USD, Currency, Denomination
+from cash_register.currency import EUR, USD, Currency, Denomination
 from cash_register.domain import InvalidConfigError, Transaction, UnderpaymentError
 from cash_register.policy import ChangePolicy, make_change, random_change
 
@@ -126,6 +126,10 @@ class TestRandomChange:
     def test_random_strategy_can_return_bills(self):
         counts = random_change(30000, USD, LargestPickingRng())
         assert by_name(counts) == {"hundred dollar bill": 3}
+
+    def test_random_strategy_can_return_euro_notes(self):
+        counts = random_change(30000, EUR, LargestPickingRng())
+        assert by_name(counts) == {"hundred euro note": 3}
 
     def test_random_path_through_make_change_can_return_bills(self):
         counts = make_change(

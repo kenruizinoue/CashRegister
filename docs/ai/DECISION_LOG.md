@@ -85,6 +85,13 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) generated six structured-error tests. No implementation change was needed: the translation seam built in Ticket 12 already produced the correct envelope, so this ticket locks the contract as regression coverage. No red phase occurred and that is recorded honestly here rather than staged.
 - AI decisions, accepted without change: blank or whitespace lines in the API payload are explicit per-line error entries rather than being silently skipped like in the file processor, because an API array element is a deliberate client value while a blank file line is formatting; batches with all lines invalid still return 200 with error entries (domain failures are data, not transport failures); only request-shape problems 422.
 
+## Ticket 14 - Config and mode selection (2026-07-03)
+
+- AI (Claude Code) shipped EUR in currency.py, added the CURRENCIES registry, widened the request Literal to USD|EUR, and mapped the selection in the handler. Used directly with one AI cleanup during green: the test file's older inline euro table was renamed INLINE_EUR because it shadowed the new shipped constant (ruff F811); it stays as the proof that arbitrary tables work, separate from the shipped EUR.
+- AI decisions, accepted without change: euro denominations named in spelled-out English ('two euro coin', 'fifty cent coin') consistent with the USD bill naming; registry keyed by currency code is the single lookup point the CLI could also adopt later; divisor/seed wiring already existed from Ticket 12, so this ticket's new surface is currency selection plus the negative-divisor request test.
+- Note: the CLI still exposes only divisor and seed, not currency; flagged as a candidate for the Phase 2 audit rather than silently expanding this ticket's scope.
+- Human addition: euro banknotes (5 through 100 euro) added to the shipped EUR table mirroring the USD bills work; named 'five euro note' etc since euros have notes, not bills. TDD with a nine-denomination minimum span (186.75) and a largest-picking random proof; endpoint EUR tests unaffected because their amounts sit below five euros.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.

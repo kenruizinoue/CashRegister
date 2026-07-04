@@ -266,7 +266,7 @@ Acceptance criteria:
 
 - Clients can tell exactly which line failed and why; envelope shape covered by tests.
 
-### Ticket 14 - Config and mode selection `[ ]`
+### Ticket 14 - Config and mode selection `[x]`
 
 Objective:
 

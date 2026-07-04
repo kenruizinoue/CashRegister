@@ -6,6 +6,7 @@ from typing import Literal
 from fastapi import FastAPI
 from pydantic import BaseModel, ConfigDict, Field
 
+from cash_register.currency import CURRENCIES
 from cash_register.domain import CashRegisterError
 from cash_register.parser import parse_line
 from cash_register.policy import ChangePolicy
@@ -20,7 +21,7 @@ class ChangeRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     lines: list[str] = Field(min_length=1, max_length=MAX_LINES)
-    currency: Literal["USD"] = "USD"
+    currency: Literal["USD", "EUR"] = "USD"
     divisor: int = Field(default=3, ge=1)
     seed: int | None = None
 
@@ -52,7 +53,7 @@ def health() -> dict[str, str]:
 @app.post("/change")
 def make_change(request: ChangeRequest) -> ChangeResponse:
     """Translate the request into core calls; no change math happens here."""
-    policy = ChangePolicy(random_divisor=request.divisor)
+    policy = ChangePolicy(currency=CURRENCIES[request.currency], random_divisor=request.divisor)
     rng = random.Random(request.seed)
     results = []
     for number, line in enumerate(request.lines, start=1):

@@ -39,6 +39,25 @@ class Currency:
         object.__setattr__(self, "denominations", normalized)
 
 
+EUR = Currency(
+    code="EUR",
+    denominations=(
+        Denomination("hundred euro note", "hundred euro notes", 10000),
+        Denomination("fifty euro note", "fifty euro notes", 5000),
+        Denomination("twenty euro note", "twenty euro notes", 2000),
+        Denomination("ten euro note", "ten euro notes", 1000),
+        Denomination("five euro note", "five euro notes", 500),
+        Denomination("two euro coin", "two euro coins", 200),
+        Denomination("one euro coin", "one euro coins", 100),
+        Denomination("fifty cent coin", "fifty cent coins", 50),
+        Denomination("twenty cent coin", "twenty cent coins", 20),
+        Denomination("ten cent coin", "ten cent coins", 10),
+        Denomination("five cent coin", "five cent coins", 5),
+        Denomination("two cent coin", "two cent coins", 2),
+        Denomination("one cent coin", "one cent coins", 1),
+    ),
+)
+
 USD = Currency(
     code="USD",
     denominations=(
@@ -54,3 +73,5 @@ USD = Currency(
         Denomination("penny", "pennies", 1),
     ),
 )
+
+CURRENCIES = {currency.code: currency for currency in (USD, EUR)}

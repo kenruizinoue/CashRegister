@@ -82,6 +82,12 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: 6 new tests, all green on first run (426 passed total); `ruff check .` clean. No red phase: Ticket 12's seam already implemented the behavior, so these are contract-locking regression tests.
 - Edge cases exercised: mixed batch with parse and underpayment failures continuing processing, all-lines-invalid batch returning 200 with specific messages, blank and whitespace-only lines as explicit error entries, ok/error field exclusivity (change xor error), shape problems staying 422.
 
+## Ticket 14 - Config and mode selection (2026-07-03)
+
+- Tests: TDD red-green observed (collection error on the missing EUR/CURRENCIES imports, then 431 passed total, 5 new); `ruff check .` clean after the F811 shadow fix.
+- Human addition, euro banknotes: TDD red-green observed (exactly the 2 new note tests failed, then 433 passed total); minimum change spanning all five notes plus four coins in one amount, random strategy returning three hundred-euro notes via the largest-picking fake.
+- Edge cases exercised: EUR minimum change spanning all seven coin values through the endpoint, EUR random line parsed back and summing to exactly 167 with EUR names, negative divisor 422, currency registry identity, shipped EUR table breakdown at core level. Unknown currency and divisor 0 were already covered in Ticket 11 tests.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

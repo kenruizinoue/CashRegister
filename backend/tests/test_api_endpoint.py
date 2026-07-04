@@ -121,6 +121,36 @@ class TestStructuredErrors:
         assert client.post("/change", json={"lines": [123]}).status_code == 422
 
 
+class TestConfigSelection:
+    def test_eur_minimum_change(self, client):
+        response = client.post("/change", json={"lines": ["2.12,5.00"], "currency": "EUR"})
+        assert response.status_code == 200
+        assert response.json()["results"][0]["change"] == (
+            "1 two euro coin,1 fifty cent coin,1 twenty cent coin,"
+            "1 ten cent coin,1 five cent coin,1 two cent coin,1 one cent coin"
+        )
+
+    def test_eur_random_line_sums_exactly(self, client):
+        from cash_register.currency import EUR
+
+        cents_by_name = {d.singular: d.value_cents for d in EUR.denominations} | {
+            d.plural: d.value_cents for d in EUR.denominations
+        }
+        response = client.post(
+            "/change", json={"lines": ["3.33,5.00"], "currency": "EUR", "seed": 42}
+        )
+        change = response.json()["results"][0]["change"]
+        total = 0
+        for part in change.split(","):
+            count, name = part.split(" ", 1)
+            total += int(count) * cents_by_name[name]
+        assert total == 167
+
+    def test_negative_divisor_rejected(self, client):
+        response = client.post("/change", json={"lines": ["1,2"], "divisor": -3})
+        assert response.status_code == 422
+
+
 class TestRequestShapeRejection:
     @pytest.mark.parametrize(
         "payload",

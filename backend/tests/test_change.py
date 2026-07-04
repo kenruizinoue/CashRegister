@@ -1,10 +1,10 @@
 import pytest
 
 from cash_register.change import change_due, minimum_change
-from cash_register.currency import USD, Currency, Denomination
+from cash_register.currency import CURRENCIES, EUR, USD, Currency, Denomination
 from cash_register.domain import InvalidCurrencyError, Transaction, UnderpaymentError
 
-EUR = Currency(
+INLINE_EUR = Currency(
     code="EUR",
     denominations=(
         Denomination("2 euro", "2 euro", 200),
@@ -95,9 +95,9 @@ class TestNegativeAmountGuard:
 
 
 class TestConfigurableCurrency:
-    def test_euro_table(self):
+    def test_inline_euro_table(self):
         change = change_due(Transaction(owed_cents=212, paid_cents=500))
-        counts = minimum_change(change, EUR)
+        counts = minimum_change(change, INLINE_EUR)
         assert by_name(counts) == {
             "2 euro": 1,
             "50 cent": 1,
@@ -108,6 +108,36 @@ class TestConfigurableCurrency:
             "1 cent": 1,
         }
         assert sum(d.value_cents * n for d, n in counts.items()) == 288
+
+    def test_shipped_eur_table(self):
+        counts = minimum_change(288, EUR)
+        assert by_name(counts) == {
+            "two euro coin": 1,
+            "fifty cent coin": 1,
+            "twenty cent coin": 1,
+            "ten cent coin": 1,
+            "five cent coin": 1,
+            "two cent coin": 1,
+            "one cent coin": 1,
+        }
+
+    def test_shipped_eur_notes_span(self):
+        counts = minimum_change(18675, EUR)
+        assert by_name(counts) == {
+            "hundred euro note": 1,
+            "fifty euro note": 1,
+            "twenty euro note": 1,
+            "ten euro note": 1,
+            "five euro note": 1,
+            "one euro coin": 1,
+            "fifty cent coin": 1,
+            "twenty cent coin": 1,
+            "five cent coin": 1,
+        }
+
+    def test_currency_registry(self):
+        assert CURRENCIES["USD"] is USD
+        assert CURRENCIES["EUR"] is EUR
 
     def test_unsorted_table_is_normalized(self):
         scrambled = Currency(
