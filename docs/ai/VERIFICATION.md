@@ -40,6 +40,12 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Human-requested strengthening: the README sample test now parses the random third output line back into cents and asserts it sums to exactly 167, instead of only asserting non-emptiness.
 - Edge cases exercised: README three-line sample, blank and whitespace-only lines skipped, CRLF input, invalid middle line continuing processing, empty text, only-blank-lines text, seeded determinism across full runs, per-line policy application, file round-trip with trailing newline, empty input file producing empty output file, mixed file with parse and underpayment errors.
 
+## Ticket 8 - CLI wrapper (2026-07-03)
+
+- Tests: TDD red-green observed (collection error before implementation, then 377 passed total, 9 new); `ruff check .` clean after reinstalling the package to register the console script.
+- Edge cases exercised: happy path exit code and output, seeded reproducibility across runs, divisor flag forcing the minimum strategy on the README random line, per-line error lines with exit code 0, missing input file (exit 1, stderr message), unwritable output path (exit 1), divisor 0 (exit 2), missing args (argparse exit 2), python -m subprocess entry.
+- Manual primary workflow check: ran both `python -m cash_register.cli` and the installed `cash-register` script against the README sample file; deterministic lines matched the README byte for byte and two independent random third lines each summed to exactly 167 cents; missing-input run printed a clear error and exited 1.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

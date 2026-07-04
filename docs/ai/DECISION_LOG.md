@@ -44,6 +44,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) generated tests/test_text_processor.py and the process_line/process_text/process_file additions to processor.py. One AI-drafted test expectation was wrong and fixed after the red run: 'nope' without a comma is a field-count error, not an invalid amount; the test input was changed to 'nope,x' to actually exercise the bad-amount path. Implementation unchanged by the fix.
 - AI decisions, accepted without change: per-line errors use a single 'error: ' prefix constant so every adapter can rely on one format; only CashRegisterError subclasses are converted to error lines (unexpected exceptions still crash loudly instead of being swallowed into output); blank-line detection uses strip so whitespace-only lines are skipped; splitlines handles CRLF input; output file gets a trailing newline only when there is content.
 
+## Ticket 8 - CLI wrapper (2026-07-03)
+
+- AI (Claude Code) generated tests/test_cli.py, src/cash_register/cli.py, and the [project.scripts] entry. Used directly, no manual modification.
+- AI decisions, accepted without change: exit code convention 0 success (including runs whose output contains per-line error lines, since the file was processed), 1 for I/O failures (missing input, unwritable output), 2 for usage and config errors (matching argparse's own convention, used for the invalid divisor); --seed and --divisor exposed as the two hinted configuration points; Random(None) seeds from system entropy so omitting --seed keeps real randomness; the python -m entry point tested via subprocess to cover the __main__ guard; CLI contains no domain logic, only arg parsing, policy construction, delegation, and error translation.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.

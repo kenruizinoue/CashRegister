@@ -140,7 +140,7 @@ Acceptance criteria:
 
 - Line N of output corresponds to non-blank line N of input; error lines are deterministic and clearly marked; file output is deterministic given a seeded random source.
 
-### Ticket 8 - CLI wrapper `[ ]`
+### Ticket 8 - CLI wrapper `[x]`
 
 Objective:
 

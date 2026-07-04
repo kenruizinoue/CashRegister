@@ -41,3 +41,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: TDD implementation of multi-line text processing with per-line error continuation and the file round-trip wrapper.
+
+## Ticket 8 - CLI wrapper (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: TDD implementation of the argparse CLI adapter and console script registration, plus a scripted manual verification of both entry points against the README sample.

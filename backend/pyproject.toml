@@ -12,6 +12,9 @@ dependencies = []
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.5"]
 
+[project.scripts]
+cash-register = "cash_register.cli:main"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
