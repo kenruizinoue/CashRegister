@@ -39,6 +39,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) generated tests/test_processor.py and src/cash_register/processor.py. Used directly except one AI self-correction before the first run: the custom-policy test initially expected a wrong minimal breakdown for 167 cents (1 dollar,1 quarter,4 dimes,2 pennies); corrected to 1 dollar,2 quarters,1 dime,1 nickel,2 pennies by recomputing by hand.
 - AI decisions, accepted without change: format_change re-sorts counts largest-first instead of trusting caller ordering, so rendering is deterministic no matter which strategy produced the counts; the "no change" literal is a named constant (NO_CHANGE) since the CLI, API, and UI will all need the same sentinel; the random README sample is asserted by parsing the formatted line back and checking it sums to 167, which pins format and math without pinning one seed's arbitrary breakdown.
 
+## Ticket 7 - Text and file processor (2026-07-03)
+
+- AI (Claude Code) generated tests/test_text_processor.py and the process_line/process_text/process_file additions to processor.py. One AI-drafted test expectation was wrong and fixed after the red run: 'nope' without a comma is a field-count error, not an invalid amount; the test input was changed to 'nope,x' to actually exercise the bad-amount path. Implementation unchanged by the fix.
+- AI decisions, accepted without change: per-line errors use a single 'error: ' prefix constant so every adapter can rely on one format; only CashRegisterError subclasses are converted to error lines (unexpected exceptions still crash loudly instead of being swallowed into output); blank-line detection uses strip so whitespace-only lines are skipped; splitlines handles CRLF input; output file gets a trailing newline only when there is content.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.

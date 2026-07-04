@@ -122,7 +122,7 @@ Acceptance criteria:
 
 - Output strings match the README format exactly, including comma separation without trailing separators.
 
-### Ticket 7 - Text and file processor `[ ]`
+### Ticket 7 - Text and file processor `[x]`
 
 Objective:
 

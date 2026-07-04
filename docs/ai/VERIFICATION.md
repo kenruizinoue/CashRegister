@@ -34,6 +34,12 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: TDD red-green observed (collection error before implementation, then 353 passed total, 13 new); `ruff check .` clean.
 - Edge cases exercised: README sample strings byte for byte, singular vs plural including 1 nickel and pennies irregular plural, all five denominations at once, single denomination, empty counts rendering "no change" for both divisible and non-divisible owed, unsorted counts rendered largest-first, random sample parsed back and summed to exactly 167, custom policy honored, underpayment propagation.
 
+## Ticket 7 - Text and file processor (2026-07-03)
+
+- Tests: TDD red observed (collection error), then one genuine red-green iteration: a wrong AI-drafted expectation surfaced on the first run and was corrected, ending at 368 passed total (15 new); `ruff check .` clean. File tests use pytest tmp_path temp files.
+- Human-requested strengthening: the README sample test now parses the random third output line back into cents and asserts it sums to exactly 167, instead of only asserting non-emptiness.
+- Edge cases exercised: README three-line sample, blank and whitespace-only lines skipped, CRLF input, invalid middle line continuing processing, empty text, only-blank-lines text, seeded determinism across full runs, per-line policy application, file round-trip with trailing newline, empty input file producing empty output file, mixed file with parse and underpayment errors.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.
