@@ -180,6 +180,10 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - SELF_CRITIQUE.md was filled with answers the human authored and supplied verbatim in his prompt; the AI transcribed and formatted them, and the file states that authorship split. This honors the CLAUDE.md rule that the critique is never answered for the human.
 - Log verification per Prompt 7: DECISION_LOG, VERIFICATION, and TOOLS were reviewed against the git history; entries exist for every ticket, correction, refinement, and audit, appended in the same turn each happened. One known gap, flagged not invented: TRANSCRIPT.md remains a placeholder until the human exports the raw conversation log at ship time.
 
+## Transcript export (2026-07-04, post final audit)
+
+- Human directed the AI to export the session log itself: the tool's native JSONL for this session (16dbc220) was located under ~/.claude/projects and copied verbatim into docs/ai/transcript-build-session.jsonl (2277 events at export time). TRANSCRIPT.md documents the format and the caveat that the file is re-exported as the last pre-delivery step so the shipping turns are included. This closes the final audit's one must-fix finding, pending that last refresh.
+
 ## Correction - stray root npm install (2026-07-03, Ticket 20)
 
 - Human caught an AI mistake: @testing-library/user-event was installed from the repo root (the shell was not in frontend/), creating a root package.json, package-lock.json, and node_modules. Local tests still passed because Node resolves modules upward, which would have masked the problem until CI's npm ci ran strictly inside frontend/ and failed. Fix: root artifacts deleted, dependency installed in frontend/package.json, npm ci re-run from the lockfile, all 27 tests plus lint and build green again.

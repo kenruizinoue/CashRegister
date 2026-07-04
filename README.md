@@ -158,7 +158,7 @@ npm run e2e     # Playwright browser tests (installs nothing extra beyond npx pl
 The client-requested AI process documentation lives in [docs/ai/](docs/ai/):
 
 - [docs/ai/REQUIREMENT_DOCS.md](docs/ai/REQUIREMENT_DOCS.md) - the documentation demands this section fulfills, recorded verbatim
-- [docs/ai/TRANSCRIPT.md](docs/ai/TRANSCRIPT.md) - full prompt transcript (export placeholder until delivery)
+- [docs/ai/TRANSCRIPT.md](docs/ai/TRANSCRIPT.md) - full prompt transcript: the raw session log exported as [transcript-build-session.jsonl](docs/ai/transcript-build-session.jsonl)
 - [docs/ai/DECISION_LOG.md](docs/ai/DECISION_LOG.md) - where AI output was used directly, modified, or rejected, and why, appended in real time per ticket
 - [docs/ai/VERIFICATION.md](docs/ai/VERIFICATION.md) - how AI-generated pieces were verified: tests run and edge cases exercised per ticket
 - [docs/ai/TOOLS.md](docs/ai/TOOLS.md) - which AI tool handled which task and how it was deployed
