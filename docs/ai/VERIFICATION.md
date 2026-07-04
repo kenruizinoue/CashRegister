@@ -103,6 +103,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: `npm test` (1 smoke render test passed under jsdom), `npm run lint` (eslint clean), `npm run build` (tsc -b + vite build succeeded after removing the deprecated baseUrl). Dev server booted and served the app shell, then stopped.
 - Edge cases: none, wiring-only ticket.
 
+## Ticket 17 - Frontend CI workflow (2026-07-03)
+
+- Tests: the exact CI sequence executed locally (npm ci clean install from the lockfile, lint clean, 1 test passed, build succeeded); workflow YAML parsed and hygiene fields asserted programmatically. Green run on GitHub to confirm after the next approved push.
+- Edge cases: none, CI wiring.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

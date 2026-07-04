@@ -337,7 +337,7 @@ Acceptance criteria:
 
 - `npm test`, `npm run build`, `npm run lint` all pass in frontend/.
 
-### Ticket 17 - Frontend CI workflow `[ ]`
+### Ticket 17 - Frontend CI workflow `[x]`
 
 Objective:
 

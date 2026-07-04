@@ -109,6 +109,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI decisions, accepted without change: Vite proxy routes /change and /health to the FastAPI port so the frontend calls same-origin paths; vitest config lives inside vite.config.ts with jsdom, globals, the jest-dom+cleanup setup file, and e2e/ excluded; .env.example carries VITE_API_BASE_URL empty by default meaning use the dev proxy.
 - One iteration during verification: TypeScript 6 deprecates baseUrl, so the @/ alias uses paths without baseUrl.
 
+## Ticket 17 - Frontend CI workflow (2026-07-03)
+
+- AI (Claude Code) generated .github/workflows/frontend-ci.yml mirroring the backend workflow hygiene (least-privilege permissions, concurrency cancellation, timeout, dependency caching keyed on the lockfile). Used directly, no manual modification.
+- AI decisions, accepted without change: separate workflow per platform (matching the standard) rather than a second job in the backend file, so failures and concurrency groups stay independent; node 22 pinned to match local dev; npm ci rather than npm install so CI is lockfile-exact.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.
