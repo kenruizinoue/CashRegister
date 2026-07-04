@@ -125,6 +125,15 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI decisions, accepted without change: factory function taking baseUrl with the default read from VITE_API_BASE_URL (empty means same-origin via the dev proxy), so tests inject explicit urls and production wiring stays configurable; the request body includes only the config fields the caller set, and a null seed is omitted so the backend treats it as unseeded; every failure mode (network throw, non-2xx, JSON parse failure, missing results key) converges on GatewayError with a human-readable message, so hooks handle exactly one error type; the API snake_case shape exists only inside this module.
 - Human requirement: validate every entry in the results array, not just the envelope. AI added an isApiLineResult type guard (field types, status literal, string-or-null change/error) applied with Array.every; any unknown shape now throws GatewayError. TDD: 8 invalid-entry cases red first.
 
+## Correction - stray root npm install (2026-07-03, Ticket 20)
+
+- Human caught an AI mistake: @testing-library/user-event was installed from the repo root (the shell was not in frontend/), creating a root package.json, package-lock.json, and node_modules. Local tests still passed because Node resolves modules upward, which would have masked the problem until CI's npm ci ran strictly inside frontend/ and failed. Fix: root artifacts deleted, dependency installed in frontend/package.json, npm ci re-run from the lockfile, all 27 tests plus lint and build green again.
+
+## Ticket 20 - Main screen with injected gateway (2026-07-03)
+
+- AI (Claude Code) generated ChangeScreen.tsx, its scoped ChangeScreen.css, the screen tests, and the App wiring. Used directly, no manual modification.
+- AI decisions, accepted without change: the screen receives ChangeGateway as a prop and App owns the one createHttpChangeGateway call, so no fetch exists outside adapters/; input splitting trims and drops blank lines client-side to mirror the file processor before lines reach the gateway; submit disabled when no non-blank lines and while a request is in flight; per-line errors render inside the results table as marked rows rather than a separate list, keeping input order visible; gateway failures render a role=alert message; file picking uses File.text() into the textarea so the file path is just a convenience for the same submit flow; styling follows the component rule (scoped BEM-ish classes in a per-component css file, no inline styles).
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.

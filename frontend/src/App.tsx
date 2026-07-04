@@ -1,9 +1,10 @@
+import { createHttpChangeGateway } from '@/adapters/httpChangeGateway'
+import { ChangeScreen } from '@/screens/ChangeScreen'
+
+const gateway = createHttpChangeGateway()
+
 function App() {
-  return (
-    <main>
-      <h1>Cash Register</h1>
-    </main>
-  )
+  return <ChangeScreen gateway={gateway} />
 }
 
 export default App

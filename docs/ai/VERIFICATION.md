@@ -120,6 +120,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Edge cases exercised: happy-path envelope mapping including a per-line error entry, config omitted entirely, full config with null seed omitted from the body, base url prefixing, HTTP 422 as GatewayError with status, JSON parse failure, envelope missing the results array, network-level fetch rejection.
 - Human-requested strengthening, per-entry validation: 8 more red-first cases (null entry, non-object entry, unknown status, string line_number, missing input, numeric change, object error field, missing status), all GatewayError after the type-guard fix; 20 frontend tests total.
 
+## Ticket 20 - Main screen with injected gateway (2026-07-03)
+
+- Tests: TDD red-green observed (module-not-found failure, then 27 passed across 4 files, 7 new); `npm run lint` clean; `npm run build` typechecks. All screen tests use a fake gateway; no network involved.
+- Edge cases exercised: README paste renders all three change lines and the gateway receives exactly the split lines, per-line error row rendered with error styling next to an ok row, submit disabled for empty and whitespace-only input and re-enabled with content, blank lines and padding stripped before the gateway call, 500-line input rendering 500 result rows, gateway rejection surfacing as a role=alert message, file pick filling the textarea.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

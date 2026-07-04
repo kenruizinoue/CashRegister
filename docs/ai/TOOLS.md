@@ -116,3 +116,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: TDD HTTP gateway adapter with stubbed-fetch coverage of the wire format and every transport failure mode.
+
+## Ticket 20 - Main screen with injected gateway (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: TDD first usable screen (textarea, file pick, submit, per-line results table) driven entirely through fake-gateway screen tests.

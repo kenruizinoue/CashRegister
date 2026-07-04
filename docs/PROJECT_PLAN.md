@@ -391,7 +391,7 @@ Acceptance criteria:
 
 - Adapter fully tested without a running backend; no domain math in the adapter.
 
-### Ticket 20 - Main screen with injected gateway `[ ]`
+### Ticket 20 - Main screen with injected gateway `[x]`
 
 Objective:
 
