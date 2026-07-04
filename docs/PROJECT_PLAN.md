@@ -212,7 +212,7 @@ Acceptance criteria:
 
 - CI green on main with API tests included.
 
-### Ticket 11 - Request and response models `[ ]`
+### Ticket 11 - Request and response models `[x]`
 
 Objective:
 

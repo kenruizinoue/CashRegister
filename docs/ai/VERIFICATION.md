@@ -67,6 +67,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: local run with the api extra installed shows 394 passed with zero skips, matching what CI will now execute; CI greenness on main to be confirmed on the next approved push.
 - Edge cases: none, CI wiring.
 
+## Ticket 11 - Request and response models (2026-07-03)
+
+- Tests: TDD red-green observed (collection error before the models existed, then 407 passed total, 13 new); `ruff check .` clean.
+- Edge cases exercised: defaults applied on minimal payload, empty lines list, missing lines field, wrong element types, unknown fields forbidden, unknown currency, divisor 0, oversized payload (1001 lines), ok and error line results, unknown status literal, envelope construction.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.
