@@ -32,7 +32,7 @@ Acceptance criteria:
 
 - `pip install -e ".[dev]"` succeeds; `pytest` passes the smoke test; `ruff check .` is clean.
 
-### Ticket 2 - Python CI workflow `[ ]`
+### Ticket 2 - Python CI workflow `[x]`
 
 Objective:
 

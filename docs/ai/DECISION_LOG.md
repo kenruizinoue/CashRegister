@@ -11,6 +11,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 
 - Human decision: keep each platform in a dedicated folder because a React project is coming later. AI executed the move (git mv of pyproject.toml, src/, tests/ into backend/), chose the folder name backend/ to pair with the frontend/ folder the ts-react-vite standard already uses, and updated path references in docs/PROJECT_PLAN.md and CLAUDE.md.
 
+## Ticket 2 - Python CI workflow (2026-07-03)
+
+- AI (Claude Code) generated .github/workflows/backend-ci.yml. Used directly, no manual modification.
+- AI decisions, accepted without change: CI pins Python 3.12 (oldest widely-deployed version above the package floor of 3.11, catches accidental use of newer syntax since local dev runs 3.14); job scoped to backend/ via working-directory so the future frontend workflow stays independent; no paths filter so the check always reports on main.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.
