@@ -146,3 +146,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5), Playwright with Chromium.
 - Task: browser E2E of both workflows and error rendering with network-mocked API, plus the frontend CI e2e job.
+
+## Phase 3 audit (2026-07-04)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: adversarial audit of the frontend per Prompt 5; state-boundary gap enumeration, regression locks, full re-verification including e2e.

@@ -315,7 +315,9 @@ uvicorn cash_register.api:app --reload
 
 Phase 2 closes via Prompt 5 audit.
 
-## Phase 3: React + Vite Frontend
+## Phase 3: React + Vite Frontend `[DONE]`
+
+Closed by Prompt 5 audit on 2026-07-04: four state-interaction gaps found on the cashier panel (notice replacement on rapid taps, lock when owed is entered after payment, unlock when owed rises above paid, owed of exactly zero submitting 0,0.00), all four already behaved correctly and are locked as regression tests. 112 unit tests, 6 e2e specs, lint, and build green; CI green.
 
 Standards: standards/base-sdlc.md + standards/ts-react-vite.md. `frontend/` directory, Vitest + Testing Library from the first ticket, gateway injected into screens, single styles.css (small console tool).
 

@@ -153,6 +153,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Audit additions (2026-07-04, human directed): backend unreachable via aborted route showing the failure alert, snackbar notice appearing and auto-dismissing in real time, output persisting across tab switches; 6 e2e specs passing.
 - CI: e2e job added to the frontend workflow; confirmed green on origin main (commit b0b2b79), Frontend CI now running lint, unit tests, build, and the Playwright e2e job.
 
+## Phase 3 audit (2026-07-04)
+
+- Tests: 4 audit tests added (112 unit tests total), all green on first run; 6 e2e specs, lint, and build re-verified green for the phase close.
+- Edge cases added: rapid tap notice replacement (single status element showing the latest), lock on owed entered after covering payment without a stray validation message, unlock plus underpayment message when owed rises above paid, owed exactly zero locking the grid while keeping calculate enabled and submitting 0,0.00 rendering no change.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

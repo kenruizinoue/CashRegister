@@ -93,6 +93,58 @@ test('payment buttons lock once paid covers owed: 4x $100 on 300.10, 5th click d
   expect(hundred).toBeEnabled()
 })
 
+test('a second tap replaces the snackbar notice', async () => {
+  render(<CashRegisterScreen gateway={makeGateway([])} />)
+
+  await userEvent.click(screen.getByRole('button', { name: 'Add $5' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Add $1' }))
+
+  const notices = screen.getAllByRole('status')
+  expect(notices).toHaveLength(1)
+  expect(notices[0]).toHaveTextContent('Added $1')
+  expect(notices[0]).not.toHaveTextContent('Added $5')
+})
+
+test('entering an owed amount already covered by prior taps locks the grid', async () => {
+  render(<CashRegisterScreen gateway={makeGateway([])} />)
+
+  await userEvent.click(screen.getByRole('button', { name: 'Add $1' }))
+  expect(screen.getByRole('button', { name: 'Add $1' })).toBeEnabled()
+
+  setOwed('0.50')
+  expect(screen.getByRole('button', { name: 'Add $1' })).toBeDisabled()
+  expect(screen.queryByText('Paid total is less than owed')).not.toBeInTheDocument()
+})
+
+test('raising owed above the paid total unlocks the grid', async () => {
+  render(<CashRegisterScreen gateway={makeGateway([])} />)
+
+  await userEvent.click(screen.getByRole('button', { name: 'Add $1' }))
+  setOwed('0.50')
+  expect(screen.getByRole('button', { name: 'Add $1' })).toBeDisabled()
+
+  setOwed('2.00')
+  expect(screen.getByRole('button', { name: 'Add $1' })).toBeEnabled()
+  expect(screen.getByText('Paid total is less than owed')).toBeInTheDocument()
+})
+
+test('owed of exactly zero locks the grid, enables calculate, and submits 0,0.00', async () => {
+  const gateway = makeGateway([
+    { lineNumber: 1, input: '0,0.00', status: 'ok', change: 'no change', error: null },
+  ])
+  render(<CashRegisterScreen gateway={gateway} />)
+
+  setOwed('0')
+  expect(screen.getByRole('button', { name: 'Add $1' })).toBeDisabled()
+
+  const calculate = screen.getByRole('button', { name: /calculate change/i })
+  expect(calculate).toBeEnabled()
+  await userEvent.click(calculate)
+
+  expect(gateway.submitLines).toHaveBeenCalledWith(['0,0.00'])
+  expect(await screen.findByText('no change')).toBeInTheDocument()
+})
+
 test('calculate change submits owed,paid and renders output with tokens', async () => {
   const gateway = makeGateway([ok(1, '2.12,3.00', '3 quarters,1 dime,3 pennies')])
   render(<CashRegisterScreen gateway={gateway} />)
