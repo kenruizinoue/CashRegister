@@ -11,6 +11,7 @@ Cash register change calculator for the Creative Cash Draw Solutions assessment.
   - Phase 2, FastAPI API: standards/python-fastapi.md
   - Phase 3, React + Vite UI: standards/ts-react-vite.md
 - The delivery flow is prompts/prompts.md; the user invokes its prompts by number.
+- Never commit implementation work until the user explicitly approves it. Prompt 4's commit step means: finish the ticket, show the result, then wait; commit only when the user says to. A prompt invocation is not commit approval.
 
 ## AI Process Documentation (client-demanded, maintained in real time)
 
@@ -27,6 +28,8 @@ The client requires AI-usage documentation with the submission. These live under
 1. Python core + CLI
 2. FastAPI API adapter over the same core
 3. React + Vite frontend
+
+Layout: the Python core, CLI, and API live in backend/; the React app lives in frontend/.
 
 ## Plan
 

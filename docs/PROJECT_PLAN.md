@@ -12,9 +12,9 @@ Ticket status legend: `[ ]` pending, `[x]` done.
 
 ## Phase 1: Python Core + CLI
 
-Standards: standards/base-sdlc.md + standards/python-cli.md. Package `cash_register`, src/ layout, console script `cash-register`.
+Standards: standards/base-sdlc.md + standards/python-cli.md. Lives in backend/ (the React app lives in frontend/ later). Package `cash_register`, src/ layout, console script `cash-register`.
 
-### Ticket 1 - Project setup and smoke test `[ ]`
+### Ticket 1 - Project setup and smoke test `[x]`
 
 Objective:
 
@@ -161,6 +161,7 @@ Acceptance criteria:
 Phase 1 verification commands:
 
 ```bash
+cd backend
 pip install -e ".[dev]"
 ruff check .
 pytest
@@ -302,6 +303,7 @@ Acceptance criteria:
 Phase 2 verification commands:
 
 ```bash
+cd backend
 pip install -e ".[api,dev]"
 pytest
 uvicorn cash_register.api:app --reload
