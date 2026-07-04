@@ -1,40 +1,19 @@
-import { useState } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
-import { GatewayError } from '@/domain/change'
-import type { ChangeGateway, LineResult } from '@/domain/change'
+import { useChangeWorkflow } from '@/hooks/useChangeWorkflow'
+import type { ChangeGateway } from '@/domain/change'
 import './ChangeScreen.css'
 
 interface ChangeScreenProps {
   gateway: ChangeGateway
 }
 
-function toLines(text: string): string[] {
-  return text
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0)
-}
-
 export function ChangeScreen({ gateway }: ChangeScreenProps) {
-  const [text, setText] = useState('')
-  const [results, setResults] = useState<LineResult[] | null>(null)
-  const [submitting, setSubmitting] = useState(false)
-  const [failure, setFailure] = useState<string | null>(null)
+  const { text, setText, lines, results, submitting, failure, submit } =
+    useChangeWorkflow(gateway)
 
-  const lines = toLines(text)
-
-  async function handleSubmit(event: FormEvent) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault()
-    setSubmitting(true)
-    setFailure(null)
-    try {
-      setResults(await gateway.submitLines(lines))
-    } catch (error) {
-      setResults(null)
-      setFailure(error instanceof GatewayError ? error.message : 'unexpected failure')
-    } finally {
-      setSubmitting(false)
-    }
+    void submit()
   }
 
   async function handleFile(event: ChangeEvent<HTMLInputElement>) {

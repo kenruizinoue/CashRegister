@@ -125,6 +125,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: TDD red-green observed (module-not-found failure, then 27 passed across 4 files, 7 new); `npm run lint` clean; `npm run build` typechecks. All screen tests use a fake gateway; no network involved.
 - Edge cases exercised: README paste renders all three change lines and the gateway receives exactly the split lines, per-line error row rendered with error styling next to an ok row, submit disabled for empty and whitespace-only input and re-enabled with content, blank lines and padding stripped before the gateway call, 500-line input rendering 500 result rows, gateway rejection surfacing as a role=alert message, file pick filling the textarea.
 
+## Ticket 21 - Workflow hooks (2026-07-03)
+
+- Tests: TDD red-green observed (module-not-found failure, then 35 passed across 5 files, 8 new hook tests); `npm run lint` clean; `npm run build` typechecks; the 7 pre-existing screen tests passed unchanged after the screen refactor.
+- Edge cases exercised: initial idle state, success path with trimmed lines, no-op submit on blank input, in-flight submitting flag via a deferred promise, double submit ignored while in flight (gateway called once), mid-flight rejection surfacing failure and clearing results, success clearing a previous failure, non-gateway exception mapped to a generic message.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

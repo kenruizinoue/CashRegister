@@ -409,7 +409,7 @@ Acceptance criteria:
 
 - A user can paste README sample input and read correct change lines; screen tests pass with the fake gateway; no fetch in the screen.
 
-### Ticket 21 - Workflow hooks `[ ]`
+### Ticket 21 - Workflow hooks `[x]`
 
 Objective:
 
