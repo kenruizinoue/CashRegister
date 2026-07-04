@@ -77,6 +77,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: TDD red-green observed (12 endpoint tests failing with 404s before the route existed, then 420 passed total, 13 new); `ruff check .` clean.
 - Edge cases exercised: README batch with seeded random third line summing to 167, single line, 100 lines keeping order and numbering, endpoint-equals-core equality under the same seed, same-seed response identity, custom divisor forcing minimum, six invalid shapes each 422 before any core call, OpenAPI components present.
 
+## Ticket 13 - Structured error output (2026-07-03)
+
+- Tests: 6 new tests, all green on first run (426 passed total); `ruff check .` clean. No red phase: Ticket 12's seam already implemented the behavior, so these are contract-locking regression tests.
+- Edge cases exercised: mixed batch with parse and underpayment failures continuing processing, all-lines-invalid batch returning 200 with specific messages, blank and whitespace-only lines as explicit error entries, ok/error field exclusivity (change xor error), shape problems staying 422.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

@@ -80,6 +80,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI decisions, accepted without change: the handler composes parse_line + process_transaction and translates CashRegisterError into structured entries rather than reusing process_line and sniffing its 'error: ' string prefix, because the API surface is structured, not textual; one Random(seed) instance is shared across the request so a seeded request is fully reproducible and endpoint output provably equals process_text for the same seed (asserted in a test); per-line error translation lands here as the natural adapter seam, with Ticket 13 driving its mixed and all-invalid coverage.
 - Carried from Ticket 11: OpenAPI schema now asserted to document ChangeRequest, ChangeResponse, and LineResult.
 
+## Ticket 13 - Structured error output (2026-07-03)
+
+- AI (Claude Code) generated six structured-error tests. No implementation change was needed: the translation seam built in Ticket 12 already produced the correct envelope, so this ticket locks the contract as regression coverage. No red phase occurred and that is recorded honestly here rather than staged.
+- AI decisions, accepted without change: blank or whitespace lines in the API payload are explicit per-line error entries rather than being silently skipped like in the file processor, because an API array element is a deliberate client value while a blank file line is formatting; batches with all lines invalid still return 200 with error entries (domain failures are data, not transport failures); only request-shape problems 422.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.

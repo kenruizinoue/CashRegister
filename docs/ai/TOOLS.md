@@ -76,3 +76,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: TDD implementation of the POST /change handler as a pure adapter, with an endpoint-equals-core equality test.
+
+## Ticket 13 - Structured error output (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: contract-locking tests for the structured per-line error envelope and the 200-vs-422 boundary.

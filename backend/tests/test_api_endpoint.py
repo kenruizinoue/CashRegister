@@ -79,6 +79,48 @@ class TestChangeEndpoint:
         )
 
 
+class TestStructuredErrors:
+    def test_mixed_batch_continues_processing(self, client):
+        lines = ["2.12,3.00", "bogus,x", "2.00,1.00", "1.97,2.00"]
+        response = client.post("/change", json={"lines": lines})
+        assert response.status_code == 200
+        results = response.json()["results"]
+        assert [r["status"] for r in results] == ["ok", "error", "error", "ok"]
+        assert results[1]["line_number"] == 2
+        assert results[1]["input"] == "bogus,x"
+        assert results[1]["error"] == "invalid amount: 'bogus'"
+        assert results[2]["error"] == "paid 1.00 is less than owed 2.00"
+        assert results[3]["change"] == "3 pennies"
+
+    def test_all_lines_invalid_still_200(self, client):
+        response = client.post("/change", json={"lines": ["x,y", "1,2,3", "5.00,1.00"]})
+        assert response.status_code == 200
+        results = response.json()["results"]
+        assert all(r["status"] == "error" for r in results)
+        assert results[0]["error"] == "invalid amount: 'x'"
+        assert results[1]["error"] == "expected 'owed,paid': '1,2,3'"
+        assert results[2]["error"] == "paid 1.00 is less than owed 5.00"
+
+    @pytest.mark.parametrize("line", ["", "   "])
+    def test_blank_line_is_an_explicit_error_entry(self, client, line):
+        response = client.post("/change", json={"lines": [line, "1.97,2.00"]})
+        assert response.status_code == 200
+        results = response.json()["results"]
+        assert results[0]["status"] == "error"
+        assert "expected 'owed,paid'" in results[0]["error"]
+        assert results[1]["change"] == "3 pennies"
+
+    def test_entry_field_exclusivity(self, client):
+        response = client.post("/change", json={"lines": ["1.97,2.00", "nope,x"]})
+        ok_entry, error_entry = response.json()["results"]
+        assert ok_entry["error"] is None and ok_entry["change"] is not None
+        assert error_entry["change"] is None and error_entry["error"] is not None
+
+    def test_shape_problems_are_422_not_error_entries(self, client):
+        assert client.post("/change", json={"lines": []}).status_code == 422
+        assert client.post("/change", json={"lines": [123]}).status_code == 422
+
+
 class TestRequestShapeRejection:
     @pytest.mark.parametrize(
         "payload",

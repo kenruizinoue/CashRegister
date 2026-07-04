@@ -248,7 +248,7 @@ Acceptance criteria:
 
 - Endpoint results equal core processor results for the same input; handler only validates, configures, delegates, translates.
 
-### Ticket 13 - Structured error output `[ ]`
+### Ticket 13 - Structured error output `[x]`
 
 Objective:
 
