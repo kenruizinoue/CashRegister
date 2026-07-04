@@ -96,3 +96,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: adversarial audit of the API surface per Prompt 5; boundary, transport, and hostile-content tests, no defects found.
+
+## Ticket 16 - Vite setup and smoke render test (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5), plus create-vite for the initial scaffold.
+- Task: frontend scaffold reworked to the standard (ESLint over template oxlint, vitest wiring, alias, proxy, minimal app shell with smoke test).

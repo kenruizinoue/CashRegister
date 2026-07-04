@@ -319,7 +319,7 @@ Phase 2 closes via Prompt 5 audit.
 
 Standards: standards/base-sdlc.md + standards/ts-react-vite.md. `frontend/` directory, Vitest + Testing Library from the first ticket, gateway injected into screens, single styles.css (small console tool).
 
-### Ticket 16 - Vite setup and smoke render test `[ ]`
+### Ticket 16 - Vite setup and smoke render test `[x]`
 
 Objective:
 

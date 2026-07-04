@@ -98,6 +98,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Post-audit human-directed addition, CLI --currency: TDD red-green (EUR run failed on the unrecognized argument, then 447 passed total, 3 new); manual cash-register run with --currency EUR produced the correct seven-coin breakdown for 2.88 change.
 - Edge cases added: batch of exactly 1000 accepted and 1001 rejected at the endpoint, explicit null seed, string and fractional seeds 422, non-JSON body 422, GET on /change 405, Unicode-digit line and embedded-newline line as per-line error entries, padded line ok, divisor 1 with seed deterministic.
 
+## Ticket 16 - Vite setup and smoke render test (2026-07-03)
+
+- Tests: `npm test` (1 smoke render test passed under jsdom), `npm run lint` (eslint clean), `npm run build` (tsc -b + vite build succeeded after removing the deprecated baseUrl). Dev server booted and served the app shell, then stopped.
+- Edge cases: none, wiring-only ticket.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

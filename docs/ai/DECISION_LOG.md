@@ -103,6 +103,12 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI decision, accepted without change: the missing CLI --currency flag is a parity limitation, not a coverage gap, so the audit did not expand scope to add it; it is recorded in the plan and will surface in ARCHITECTURE.md and the self-critique scaffold.
 - Human then directed implementing the flag. AI added --currency with argparse choices generated from the CURRENCIES registry (a new currency becomes a CLI option automatically) and mapped it into ChangePolicy. TDD: EUR run red first; unknown currency exits 2 via argparse choices.
 
+## Ticket 16 - Vite setup and smoke render test (2026-07-03)
+
+- AI (Claude Code) scaffolded via create-vite react-ts, then reworked to the standard. Two template deviations corrected deliberately: the 2026 template ships oxlint but standards/ts-react-vite.md mandates ESLint flat config with typescript-eslint and react-hooks, so oxlint was removed and ESLint installed; the template's demo app (logos, counter, two css files) was replaced with a minimal App and the single styles.css the standard prescribes for console tools.
+- AI decisions, accepted without change: Vite proxy routes /change and /health to the FastAPI port so the frontend calls same-origin paths; vitest config lives inside vite.config.ts with jsdom, globals, the jest-dom+cleanup setup file, and e2e/ excluded; .env.example carries VITE_API_BASE_URL empty by default meaning use the dev proxy.
+- One iteration during verification: TypeScript 6 deprecates baseUrl, so the @/ alias uses paths without baseUrl.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.
