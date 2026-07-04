@@ -2,6 +2,10 @@
 
 How AI-generated pieces were confirmed to work: tests used and edge cases exercised, recorded when the checks actually ran.
 
+## Final state at delivery (2026-07-04)
+
+- 447 backend tests, 112 frontend unit tests, 6 Playwright e2e specs, ruff and eslint clean, both builds passing, manual CLI run of the README sample verified, Backend CI and Frontend CI green on the shipped commit.
+
 ## Ticket 1 - Project setup and smoke test (2026-07-03)
 
 - Tests: `pip install -e ".[dev]"` succeeded in a fresh .venv (Python 3.14.6); `pytest` ran the smoke test, 1 passed; `ruff check .` reported no issues.

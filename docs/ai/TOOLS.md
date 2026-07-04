@@ -156,3 +156,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: README restructure, ARCHITECTURE.md authoring, log verification against git history, transcription of the human-authored self-critique.
+
+## Prompt 8 and 9 - Final audit and ship (2026-07-04)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: full-suite final audit with reviewer-findings list, transcript self-export, and PR delivery to the upstream repository.

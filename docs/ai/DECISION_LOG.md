@@ -184,6 +184,10 @@ Marks where AI output was used directly, where it was modified and why, and wher
 
 - Human directed the AI to export the session log itself: the tool's native JSONL for this session (16dbc220) was located under ~/.claude/projects and copied verbatim into docs/ai/transcript-build-session.jsonl (2277 events at export time). TRANSCRIPT.md documents the format and the caveat that the file is re-exported as the last pre-delivery step so the shipping turns are included. This closes the final audit's one must-fix finding, pending that last refresh.
 
+## Prompt 9 - Ship (2026-07-04)
+
+- Final sequence executed by AI at human direction: transcript re-exported so the log covers through the final audit and export steps, committed and pushed, both CI workflows confirmed green on the final commit, and the delivery pull request opened from kenruizinoue:main to TrueFit:main (PR 107) with the human-specified body (what was built, run instructions via the README, test counts and CI status, docs/ai pointer).
+
 ## Correction - stray root npm install (2026-07-03, Ticket 20)
 
 - Human caught an AI mistake: @testing-library/user-event was installed from the repo root (the shell was not in frontend/), creating a root package.json, package-lock.json, and node_modules. Local tests still passed because Node resolves modules upward, which would have masked the problem until CI's npm ci ran strictly inside frontend/ and failed. Fix: root artifacts deleted, dependency installed in frontend/package.json, npm ci re-run from the lockfile, all 27 tests plus lint and build green again.
