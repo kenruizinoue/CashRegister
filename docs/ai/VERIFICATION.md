@@ -62,6 +62,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Lightweight-core check: AST scan proves no core module imports any api-extra package; API tests skip cleanly when fastapi is absent.
 - Edge cases: none, wiring-only ticket.
 
+## Ticket 10 - Extend CI for API tests (2026-07-03)
+
+- Tests: local run with the api extra installed shows 394 passed with zero skips, matching what CI will now execute; CI greenness on main to be confirmed on the next approved push.
+- Edge cases: none, CI wiring.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

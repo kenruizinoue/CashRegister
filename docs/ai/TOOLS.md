@@ -61,3 +61,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: FastAPI wiring (api extra, app module, health route, TestClient smoke test) and resolution of the httpx-to-httpx2 TestClient deprecation.
+
+## Ticket 10 - Extend CI for API tests (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: CI install step extended to the api extra so API tests execute in CI.

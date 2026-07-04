@@ -194,7 +194,7 @@ Acceptance criteria:
 
 - `pip install -e ".[api,dev]"` succeeds; smoke test passes; core install without the extra stays lightweight.
 
-### Ticket 10 - Extend CI for API tests `[ ]`
+### Ticket 10 - Extend CI for API tests `[x]`
 
 Objective:
 

@@ -64,6 +64,10 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) generated the api extra, src/cash_register/api.py with the health route, and tests/test_api.py. Used directly with one dependency swap during verification: the first run surfaced a StarletteDeprecationWarning saying httpx-based TestClient is deprecated in favor of httpx2, so the extra pins httpx2 instead and the old httpx was uninstalled. Warning gone, suite clean.
 - AI decisions, accepted without change: test_api.py starts with pytest.importorskip('fastapi') so a core-only install (no api extra) skips API tests instead of erroring, keeping the lightweight-core guarantee testable; a small AST check confirmed no core module imports fastapi, uvicorn, or httpx2.
 
+## Ticket 10 - Extend CI for API tests (2026-07-03)
+
+- AI (Claude Code) changed the CI install step from ".[dev]" to ".[api,dev]" so the API tests run in CI instead of being skipped by importorskip. One-line change, used directly.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.
