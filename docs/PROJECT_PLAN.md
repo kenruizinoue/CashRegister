@@ -230,7 +230,7 @@ Acceptance criteria:
 
 - Invalid shapes rejected with 422 before any core call; models documented in the OpenAPI schema.
 
-### Ticket 12 - Change endpoint delegating to core `[ ]`
+### Ticket 12 - Change endpoint delegating to core `[x]`
 
 Objective:
 

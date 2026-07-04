@@ -72,6 +72,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: TDD red-green observed (collection error before the models existed, then 407 passed total, 13 new); `ruff check .` clean.
 - Edge cases exercised: defaults applied on minimal payload, empty lines list, missing lines field, wrong element types, unknown fields forbidden, unknown currency, divisor 0, oversized payload (1001 lines), ok and error line results, unknown status literal, envelope construction.
 
+## Ticket 12 - Change endpoint delegating to core (2026-07-03)
+
+- Tests: TDD red-green observed (12 endpoint tests failing with 404s before the route existed, then 420 passed total, 13 new); `ruff check .` clean.
+- Edge cases exercised: README batch with seeded random third line summing to 167, single line, 100 lines keeping order and numbering, endpoint-equals-core equality under the same seed, same-seed response identity, custom divisor forcing minimum, six invalid shapes each 422 before any core call, OpenAPI components present.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

@@ -71,3 +71,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: TDD pydantic request/response model design with strict validation (forbidden extras, size caps, literal enums).
+
+## Ticket 12 - Change endpoint delegating to core (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: TDD implementation of the POST /change handler as a pure adapter, with an endpoint-equals-core equality test.

@@ -74,6 +74,12 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI decisions, accepted without change: ChangeRequest carries raw owed,paid strings (parsing stays in the core, the API does not re-model transactions); extra='forbid' so unknown fields 422 instead of being silently dropped; lines capped at 1000 per request as the oversized-payload guard; currency is a Literal enum currently allowing only USD, to be widened when EUR ships in Ticket 14; divisor validated ge=1 at the model layer mirroring the domain rule so bad config never reaches core; LineResult uses a status Literal (ok/error) with line_number and echoed input, pre-shaping the Ticket 13 structured error envelope.
 - Deferred: the OpenAPI-schema acceptance check runs in Ticket 12 when the endpoint registers the models with the app.
 
+## Ticket 12 - Change endpoint delegating to core (2026-07-03)
+
+- AI (Claude Code) generated tests/test_api_endpoint.py and the POST /change handler. Used directly, no manual modification.
+- AI decisions, accepted without change: the handler composes parse_line + process_transaction and translates CashRegisterError into structured entries rather than reusing process_line and sniffing its 'error: ' string prefix, because the API surface is structured, not textual; one Random(seed) instance is shared across the request so a seeded request is fully reproducible and endpoint output provably equals process_text for the same seed (asserted in a test); per-line error translation lands here as the natural adapter seam, with Ticket 13 driving its mixed and all-invalid coverage.
+- Carried from Ticket 11: OpenAPI schema now asserted to document ChangeRequest, ChangeResponse, and LineResult.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.

@@ -1,0 +1,104 @@
+import random
+
+import pytest
+
+pytest.importorskip("fastapi", reason="api extra not installed")
+
+from fastapi.testclient import TestClient  # noqa: E402
+
+from cash_register.api import app  # noqa: E402
+from cash_register.currency import USD  # noqa: E402
+from cash_register.processor import process_text  # noqa: E402
+
+README_LINES = ["2.12,3.00", "1.97,2.00", "3.33,5.00"]
+
+CENTS_BY_NAME = {d.singular: d.value_cents for d in USD.denominations} | {
+    d.plural: d.value_cents for d in USD.denominations
+}
+
+
+def change_line_cents(line):
+    total = 0
+    for part in line.split(","):
+        count, name = part.split(" ", 1)
+        total += int(count) * CENTS_BY_NAME[name]
+    return total
+
+
+@pytest.fixture
+def client():
+    return TestClient(app)
+
+
+class TestChangeEndpoint:
+    def test_readme_sample(self, client):
+        response = client.post("/change", json={"lines": README_LINES, "seed": 42})
+        assert response.status_code == 200
+        results = response.json()["results"]
+        assert [r["line_number"] for r in results] == [1, 2, 3]
+        assert [r["status"] for r in results] == ["ok", "ok", "ok"]
+        assert results[0]["input"] == "2.12,3.00"
+        assert results[0]["change"] == "3 quarters,1 dime,3 pennies"
+        assert results[1]["change"] == "3 pennies"
+        assert change_line_cents(results[2]["change"]) == 167
+
+    def test_single_line(self, client):
+        response = client.post("/change", json={"lines": ["1.97,2.00"]})
+        assert response.status_code == 200
+        results = response.json()["results"]
+        assert len(results) == 1
+        assert results[0]["change"] == "3 pennies"
+
+    def test_many_lines_keep_order(self, client):
+        lines = ["1.97,2.00"] * 50 + ["2.12,3.00"] * 50
+        response = client.post("/change", json={"lines": lines})
+        results = response.json()["results"]
+        assert len(results) == 100
+        assert results[0]["change"] == "3 pennies"
+        assert results[99]["change"] == "3 quarters,1 dime,3 pennies"
+        assert [r["line_number"] for r in results] == list(range(1, 101))
+
+    def test_endpoint_matches_core_processor(self, client):
+        expected = process_text("\n".join(README_LINES), rng=random.Random(7)).split("\n")
+        response = client.post("/change", json={"lines": README_LINES, "seed": 7})
+        changes = [r["change"] for r in response.json()["results"]]
+        assert changes == expected
+
+    def test_same_seed_same_response(self, client):
+        payload = {"lines": README_LINES, "seed": 11}
+        first = client.post("/change", json=payload).json()
+        second = client.post("/change", json=payload).json()
+        assert first == second
+
+    def test_custom_divisor_forces_minimum(self, client):
+        response = client.post(
+            "/change", json={"lines": ["3.33,5.00"], "divisor": 1000000}
+        )
+        assert response.json()["results"][0]["change"] == (
+            "1 dollar,2 quarters,1 dime,1 nickel,2 pennies"
+        )
+
+
+class TestRequestShapeRejection:
+    @pytest.mark.parametrize(
+        "payload",
+        [
+            {"lines": []},
+            {"lines": ["1,2"], "divisor": 0},
+            {"lines": ["1,2"], "currency": "XYZ"},
+            {"lines": ["1,2"], "bogus": True},
+            {"lines": "1,2"},
+            {},
+        ],
+    )
+    def test_invalid_shapes_get_422(self, client, payload):
+        assert client.post("/change", json=payload).status_code == 422
+
+
+class TestOpenApiSchema:
+    def test_models_documented(self, client):
+        schema = client.get("/openapi.json").json()
+        components = schema["components"]["schemas"]
+        assert "ChangeRequest" in components
+        assert "ChangeResponse" in components
+        assert "LineResult" in components
