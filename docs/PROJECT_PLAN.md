@@ -176,7 +176,7 @@ Phase 1 closes via Prompt 5 audit (edge case sweep, fixes, commit, mark phase do
 
 Standards: standards/base-sdlc.md + standards/python-fastapi.md. API deps behind an `api` extra; FastAPI delegates to the Phase 1 core.
 
-### Ticket 9 - API dependency and app smoke test `[ ]`
+### Ticket 9 - API dependency and app smoke test `[x]`
 
 Objective:
 

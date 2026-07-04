@@ -56,3 +56,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: adversarial self-audit of Phase 1 per Prompt 5; gap enumeration, tests-before-fixes, three bug fixes, full re-verification.
+
+## Ticket 9 - API dependency and app smoke test (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: FastAPI wiring (api extra, app module, health route, TestClient smoke test) and resolution of the httpx-to-httpx2 TestClient deprecation.

@@ -11,6 +11,7 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.5"]
+api = ["fastapi>=0.110", "uvicorn>=0.30", "httpx2>=1.0"]
 
 [project.scripts]
 cash-register = "cash_register.cli:main"

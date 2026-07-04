@@ -56,6 +56,12 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: 12 audit tests written first; 7 failed exposing the three real bugs, all green after the fixes (393 passed total); `ruff check .` clean; manual CLI run against the README sample re-verified, random line summing to 167.
 - Edge cases added: Arabic-Indic and fullwidth digit rejection, non-UTF-8 input file exiting 1 with a clear message, directory as input path exiting 1, negative amounts rejected by both strategies, zero owed with zero paid producing no change, zero owed with payment, custom currency through make_change on both the minimum and random paths.
 
+## Ticket 9 - API dependency and app smoke test (2026-07-03)
+
+- Tests: TDD red-green observed (collection error before api.py existed, then 394 passed); `ruff check .` clean; `pip install -e ".[api,dev]"` succeeded; deprecation warning eliminated by moving to httpx2.
+- Lightweight-core check: AST scan proves no core module imports any api-extra package; API tests skip cleanly when fastapi is absent.
+- Edge cases: none, wiring-only ticket.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

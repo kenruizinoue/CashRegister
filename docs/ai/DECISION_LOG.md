@@ -59,6 +59,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) performed the audit, listed six candidate gaps, and wrote tests for all of them before any fix. Three were real bugs the tests exposed and AI then fixed: the amount regex used \d without re.ASCII so Unicode digits (Arabic-Indic, fullwidth) slipped past validation; the CLI crashed with a traceback on non-UTF-8 input instead of exiting 1; minimum_change and random_change accepted negative amounts (nonsense counts and an IndexError respectively), now guarded with ValueError since a negative amount is a programming error, not user input.
 - The other three candidates (directory as input path, zero owed with zero paid, custom currency through make_change) were already handled correctly; their tests were kept as regression coverage.
 
+## Ticket 9 - API dependency and app smoke test (2026-07-03)
+
+- AI (Claude Code) generated the api extra, src/cash_register/api.py with the health route, and tests/test_api.py. Used directly with one dependency swap during verification: the first run surfaced a StarletteDeprecationWarning saying httpx-based TestClient is deprecated in favor of httpx2, so the extra pins httpx2 instead and the old httpx was uninstalled. Warning gone, suite clean.
+- AI decisions, accepted without change: test_api.py starts with pytest.importorskip('fastapi') so a core-only install (no api extra) skips API tests instead of erroring, keeping the lightweight-core guarantee testable; a small AST check confirmed no core module imports fastapi, uvicorn, or httpx2.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.
