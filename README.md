@@ -41,3 +41,46 @@ Here are a couple of thoughts about the domain that could influence your respons
 * What might happen if the client needs to change the random divisor?
 * What might happen if the client needs to add another special case (like the random twist)?
 * What might happen if sales closes a new client in France?
+
+## Solution: Running the API
+
+The change calculator is exposed over HTTP by a FastAPI adapter in `backend/`.
+
+### Setup
+
+```bash
+cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[api,dev]"
+```
+
+### Run
+
+```bash
+uvicorn cash_register.api:app --reload
+```
+
+Interactive documentation: http://127.0.0.1:8000/docs
+
+### Example
+
+```bash
+curl -s http://127.0.0.1:8000/change \
+  -H "Content-Type: application/json" \
+  -d '{"lines": ["2.12,3.00", "1.97,2.00", "3.33,5.00"], "seed": 42}'
+```
+
+Response (the third line is random because 3.33 divides by 3; `seed` makes it reproducible):
+
+```json
+{
+  "results": [
+    {"line_number": 1, "input": "2.12,3.00", "status": "ok", "change": "3 quarters,1 dime,3 pennies", "error": null},
+    {"line_number": 2, "input": "1.97,2.00", "status": "ok", "change": "3 pennies", "error": null},
+    {"line_number": 3, "input": "3.33,5.00", "status": "ok", "change": "1 dollar,1 quarter,3 dimes,2 nickels,2 pennies", "error": null}
+  ]
+}
+```
+
+Request options: `currency` (`"USD"` default or `"EUR"`), `divisor` (default 3, the random twist trigger), `seed` (omit for real randomness). Invalid lines come back as per-line `status: "error"` entries with a message; invalid request shapes return 422.

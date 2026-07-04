@@ -88,6 +88,10 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Human addition, euro banknotes: TDD red-green observed (exactly the 2 new note tests failed, then 433 passed total); minimum change spanning all five notes plus four coins in one amount, random strategy returning three hundred-euro notes via the largest-picking fake.
 - Edge cases exercised: EUR minimum change spanning all seven coin values through the endpoint, EUR random line parsed back and summing to exactly 167 with EUR names, negative divisor 422, currency registry identity, shipped EUR table breakdown at core level. Unknown currency and divisor 0 were already covered in Ticket 11 tests.
 
+## Ticket 15 - API run docs (2026-07-03)
+
+- Verification: documented commands executed exactly as written before documenting them; uvicorn served, /health returned ok, the README example curl returned the response now shown in the README (seed 42, third line summing to 167). No automated tests, docs ticket.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

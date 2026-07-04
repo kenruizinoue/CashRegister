@@ -92,6 +92,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - Note: the CLI still exposes only divisor and seed, not currency; flagged as a candidate for the Phase 2 audit rather than silently expanding this ticket's scope.
 - Human addition: euro banknotes (5 through 100 euro) added to the shipped EUR table mirroring the USD bills work; named 'five euro note' etc since euros have notes, not bills. TDD with a nine-denomination minimum span (186.75) and a largest-picking random proof; endpoint EUR tests unaffected because their amounts sit below five euros.
 
+## Ticket 15 - API run docs (2026-07-03)
+
+- AI (Claude Code) wrote the README 'Solution: Running the API' section. Every command and the example response were executed live first (uvicorn started, /health and /change curled, server stopped) and the response pasted from the real output rather than composed from memory.
+- AI decision, accepted without change: the section is appended after the original challenge text, leaving the problem statement untouched; the full README restructure is Prompt 7 scope.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.

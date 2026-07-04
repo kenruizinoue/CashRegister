@@ -86,3 +86,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: TDD shipping of the EUR currency, registry lookup, and end-to-end currency selection through the API.
+
+## Ticket 15 - API run docs (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: README API run section, written from a live verified run of the documented commands.

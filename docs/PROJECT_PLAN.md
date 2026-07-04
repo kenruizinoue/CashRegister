@@ -284,7 +284,7 @@ Acceptance criteria:
 
 - Config options exercised end to end through the endpoint; invalid config never reaches the core.
 
-### Ticket 15 - API run docs `[ ]`
+### Ticket 15 - API run docs `[x]`
 
 Objective:
 
