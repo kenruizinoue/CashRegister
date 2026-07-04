@@ -114,6 +114,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) generated .github/workflows/frontend-ci.yml mirroring the backend workflow hygiene (least-privilege permissions, concurrency cancellation, timeout, dependency caching keyed on the lockfile). Used directly, no manual modification.
 - AI decisions, accepted without change: separate workflow per platform (matching the standard) rather than a second job in the backend file, so failures and concurrency groups stay independent; node 22 pinned to match local dev; npm ci rather than npm install so CI is lockfile-exact.
 
+## Ticket 18 - Domain types and gateway interface (2026-07-03)
+
+- AI (Claude Code) generated src/domain/change.ts and its test. Used directly after one AI cleanup: the test fake initially consumed the optional config parameter with a no-op ternary to satisfy noUnusedParameters; simplified by implementing the interface with fewer parameters, which TypeScript permits.
+- AI decisions, accepted without change: domain types use frontend camelCase (lineNumber) and the adapter owns the snake_case translation, keeping the wire format out of screens; GatewayError defined in domain so hooks can catch a typed failure without importing adapter internals; config fields optional so callers state only what they override.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.

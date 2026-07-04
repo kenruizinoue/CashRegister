@@ -355,7 +355,7 @@ Acceptance criteria:
 
 - Frontend CI green on main.
 
-### Ticket 18 - Domain types and gateway interface `[ ]`
+### Ticket 18 - Domain types and gateway interface `[x]`
 
 Objective:
 

@@ -106,3 +106,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: frontend GitHub Actions workflow, verified by running the identical command sequence locally and asserting the YAML structure.
+
+## Ticket 18 - Domain types and gateway interface (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: TDD frontend domain layer (types mirroring the API contract, ChangeGateway interface, typed GatewayError).

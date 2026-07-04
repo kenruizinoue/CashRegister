@@ -109,6 +109,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Confirmed: first Frontend CI run on origin main (commit d5d4d9e) completed with conclusion success, alongside a green Backend CI on the same commit.
 - Edge cases: none, CI wiring.
 
+## Ticket 18 - Domain types and gateway interface (2026-07-03)
+
+- Tests: TDD red-green observed (module-not-found failure, then 4 passed across 2 files); `npm run lint` clean; `npm run build` typechecks the types under strict noUnused rules.
+- Edge cases: types-only ticket; contract exercised via a fake gateway implementation, an error entry literal, and the GatewayError class.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.
