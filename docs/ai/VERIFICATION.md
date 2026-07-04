@@ -130,6 +130,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: TDD red-green observed (module-not-found failure, then 35 passed across 5 files, 8 new hook tests); `npm run lint` clean; `npm run build` typechecks; the 7 pre-existing screen tests passed unchanged after the screen refactor.
 - Edge cases exercised: initial idle state, success path with trimmed lines, no-op submit on blank input, in-flight submitting flag via a deferred promise, double submit ignored while in flight (gateway called once), mid-flight rejection surfacing failure and clearing results, success clearing a previous failure, non-gateway exception mapped to a generic message.
 
+## Ticket 22 - Utility functions (2026-07-03)
+
+- Tests: TDD red-green observed (two module-not-found failures, then 45 passed across 7 files, 10 new); `npm run lint` clean; `npm run build` typechecks; hook and screen suites passed unchanged after the refactor.
+- Edge cases exercised: blank and whitespace-only lines, tab-only lines, empty input, CRLF endings, padding trim, order preservation, ok/error display selection, null change and null error degrading to empty strings.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

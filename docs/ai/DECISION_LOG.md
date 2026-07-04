@@ -130,6 +130,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - AI (Claude Code) generated useChangeWorkflow and its tests, then refactored ChangeScreen to pure composition. Used directly, no manual modification. All 7 existing screen tests passed unchanged after the refactor, confirming behavior parity.
 - AI decisions, accepted without change: the hook owns the double-submit guard (submit is a no-op while in flight or with no non-blank lines) instead of relying on the disabled button, so the invariant holds for any future caller; failures clear results and successes clear failures so the screen never shows both; non-GatewayError exceptions map to a generic message rather than leaking internals; line splitting stays in the hook until Ticket 22 moves it to utils/.
 
+## Ticket 22 - Utility functions (2026-07-03)
+
+- AI (Claude Code) generated utils/lines.ts (toLines) and utils/results.ts (resultText) with unit tests, then swapped the hook's inline splitter and the screen's inline ternary to use them. Used directly, no manual modification.
+- AI decisions, accepted without change: only helpers that already had two callers or a display rule worth naming were extracted, avoiding speculative utils; resultText degrades to an empty string on null fields so the table never renders the word null; existing hook and screen tests passing unchanged after the swap prove the refactor was behavior-neutral.
+
 ## Correction - stray root npm install (2026-07-03, Ticket 20)
 
 - Human caught an AI mistake: @testing-library/user-event was installed from the repo root (the shell was not in frontend/), creating a root package.json, package-lock.json, and node_modules. Local tests still passed because Node resolves modules upward, which would have masked the problem until CI's npm ci ran strictly inside frontend/ and failed. Fix: root artifacts deleted, dependency installed in frontend/package.json, npm ci re-run from the lockfile, all 27 tests plus lint and build green again.

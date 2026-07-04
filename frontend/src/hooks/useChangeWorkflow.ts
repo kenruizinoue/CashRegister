@@ -4,13 +4,7 @@
 import { useState } from 'react'
 import { GatewayError } from '@/domain/change'
 import type { ChangeGateway, LineResult } from '@/domain/change'
-
-function toLines(text: string): string[] {
-  return text
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0)
-}
+import { toLines } from '@/utils/lines'
 
 export function useChangeWorkflow(gateway: ChangeGateway) {
   const [text, setText] = useState('')

@@ -427,7 +427,7 @@ Acceptance criteria:
 
 - Screen becomes composition only; hook covered by tests.
 
-### Ticket 22 - Utility functions `[ ]`
+### Ticket 22 - Utility functions `[x]`
 
 Objective:
 

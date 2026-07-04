@@ -126,3 +126,8 @@ How AI was deployed across the problem and which tool handled each task. Appende
 
 - Tool: Claude Code (Claude Fable 5).
 - Task: TDD extraction of the submit workflow into useChangeWorkflow with renderHook tests (deferred promises for in-flight assertions), screen reduced to composition.
+
+## Ticket 22 - Utility functions (2026-07-03)
+
+- Tool: Claude Code (Claude Fable 5).
+- Task: TDD extraction of pure line-splitting and result-display helpers into utils/ with unit tests.

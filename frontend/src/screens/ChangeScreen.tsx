@@ -1,6 +1,7 @@
 import type { ChangeEvent, FormEvent } from 'react'
 import { useChangeWorkflow } from '@/hooks/useChangeWorkflow'
 import type { ChangeGateway } from '@/domain/change'
+import { resultText } from '@/utils/results'
 import './ChangeScreen.css'
 
 interface ChangeScreenProps {
@@ -74,7 +75,7 @@ export function ChangeScreen({ gateway }: ChangeScreenProps) {
               >
                 <td>{result.lineNumber}</td>
                 <td>{result.input}</td>
-                <td>{result.status === 'ok' ? result.change : result.error}</td>
+                <td>{resultText(result)}</td>
               </tr>
             ))}
           </tbody>
