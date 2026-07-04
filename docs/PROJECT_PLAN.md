@@ -10,7 +10,9 @@ Process rule: every ticket appends its entries to docs/ai/DECISION_LOG.md, docs/
 
 Ticket status legend: `[ ]` pending, `[x]` done.
 
-## Phase 1: Python Core + CLI
+## Phase 1: Python Core + CLI `[DONE]`
+
+Closed by Prompt 5 audit on 2026-07-03: three real gaps found and fixed (non-ASCII digits passing the amount regex, CLI crash on non-UTF-8 input, missing negative-amount guards in both strategies), 12 audit tests added, 393 tests green, CI green.
 
 Standards: standards/base-sdlc.md + standards/python-cli.md. Lives in backend/ (the React app lives in frontend/ later). Package `cash_register`, src/ layout, console script `cash-register`.
 

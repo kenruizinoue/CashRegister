@@ -54,6 +54,11 @@ Marks where AI output was used directly, where it was modified and why, and wher
 - Human requirement: extend the USD table with 5, 10, 20, 50, and 100 dollar bills, with tests proving both strategies can return bills. This supersedes the bootstrap decision that capped the table at the dollar.
 - AI (Claude Code) implemented it TDD (5 new tests red first, then the table extension). AI decisions, accepted without change: bill names spelled out as 'five dollar bill'/'five dollar bills' etc so change lines stay readable English; the prior large-amount minimum test updated because bills legitimately change its expected breakdown; random bill coverage proven with a largest-picking fake rng rather than seed hunting.
 
+## Phase 1 audit (2026-07-03)
+
+- AI (Claude Code) performed the audit, listed six candidate gaps, and wrote tests for all of them before any fix. Three were real bugs the tests exposed and AI then fixed: the amount regex used \d without re.ASCII so Unicode digits (Arabic-Indic, fullwidth) slipped past validation; the CLI crashed with a traceback on non-UTF-8 input instead of exiting 1; minimum_change and random_change accepted negative amounts (nonsense counts and an IndexError respectively), now guarded with ValueError since a negative amount is a programming error, not user input.
+- The other three candidates (directory as input path, zero owed with zero paid, custom currency through make_change) were already handled correctly; their tests were kept as regression coverage.
+
 ## Correction - commit policy (2026-07-03)
 
 - Human rejected AI behavior: AI treated invoking Prompt 4 as approval to commit and committed Ticket 1 plus the restructure on its own. Human requires explicit approval per commit. Both commits were reverted with git reset --soft (work kept in the working tree) and CLAUDE.md now states the rule.

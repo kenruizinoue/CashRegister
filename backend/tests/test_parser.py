@@ -94,3 +94,9 @@ def test_parse_line_bad_amounts(line):
 def test_error_message_includes_offending_text():
     with pytest.raises(InvalidLineError, match="abc"):
         parse_amount("abc")
+
+
+@pytest.mark.parametrize("text", ["٢", "٢.٥٠", "２", "１.５"])
+def test_non_ascii_digits_rejected(text):
+    with pytest.raises(InvalidLineError, match="invalid amount"):
+        parse_amount(text)

@@ -31,6 +31,8 @@ def random_change(
     Draws one eligible denomination at a time until the amount is covered;
     the 1-unit denomination guaranteed by Currency means a draw always exists.
     """
+    if amount_cents < 0:
+        raise ValueError(f"amount_cents must be non-negative, got {amount_cents}")
     picked: dict[Denomination, int] = {}
     remaining = amount_cents
     while remaining:

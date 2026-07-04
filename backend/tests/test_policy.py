@@ -2,9 +2,17 @@ import random
 
 import pytest
 
-from cash_register.currency import USD
+from cash_register.currency import USD, Currency, Denomination
 from cash_register.domain import InvalidConfigError, Transaction, UnderpaymentError
 from cash_register.policy import ChangePolicy, make_change, random_change
+
+TINY = Currency(
+    code="TINY",
+    denominations=(
+        Denomination("big", "bigs", 5),
+        Denomination("unit", "units", 1),
+    ),
+)
 
 
 class SmallestPickingRng:
@@ -94,6 +102,26 @@ class TestRandomChange:
         counts = random_change(167, USD, random.Random(3))
         values = [d.value_cents for d in counts]
         assert values == sorted(values, reverse=True)
+
+    def test_negative_amount_rejected(self):
+        with pytest.raises(ValueError, match="non-negative"):
+            random_change(-1, USD, random.Random(1))
+
+    def test_custom_currency_through_make_change_minimum(self):
+        counts = make_change(
+            Transaction(owed_cents=4, paid_cents=17),
+            ChangePolicy(currency=TINY),
+            rng=ForbiddenRng(),
+        )
+        assert by_name(counts) == {"big": 2, "unit": 3}
+
+    def test_custom_currency_through_make_change_random(self):
+        counts = make_change(
+            Transaction(owed_cents=3, paid_cents=10),
+            ChangePolicy(currency=TINY),
+            rng=random.Random(2),
+        )
+        assert sum(d.value_cents * n for d, n in counts.items()) == 7
 
     def test_random_strategy_can_return_bills(self):
         counts = random_change(30000, USD, LargestPickingRng())

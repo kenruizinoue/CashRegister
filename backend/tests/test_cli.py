@@ -71,6 +71,18 @@ class TestFailures:
             main([])
         assert excinfo.value.code == 2
 
+    def test_non_utf8_input_file(self, tmp_path, capsys):
+        input_path = tmp_path / "input.txt"
+        input_path.write_bytes(b"\xff\xfe\x00bad")
+        output_path = tmp_path / "output.txt"
+        assert main([str(input_path), str(output_path)]) == 1
+        assert "UTF-8" in capsys.readouterr().err
+
+    def test_input_path_is_directory(self, tmp_path, capsys):
+        output_path = tmp_path / "output.txt"
+        assert main([str(tmp_path), str(output_path)]) == 1
+        assert "error" in capsys.readouterr().err
+
 
 class TestModuleEntryPoint:
     def test_python_dash_m(self, io_paths):

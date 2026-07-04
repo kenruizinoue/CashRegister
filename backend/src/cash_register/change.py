@@ -25,6 +25,8 @@ def minimum_change(amount_cents: int, currency: Currency) -> dict[Denomination, 
     1-unit denomination guaranteed by Currency means it always terminates
     with the full amount represented.
     """
+    if amount_cents < 0:
+        raise ValueError(f"amount_cents must be non-negative, got {amount_cents}")
     counts: dict[Denomination, int] = {}
     remaining = amount_cents
     for denomination in currency.denominations:

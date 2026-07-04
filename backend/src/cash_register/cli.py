@@ -44,6 +44,9 @@ def main(argv: list[str] | None = None) -> int:
     except FileNotFoundError:
         print(f"error: input file not found: {args.input_path}", file=sys.stderr)
         return 1
+    except UnicodeDecodeError:
+        print(f"error: input file is not valid UTF-8: {args.input_path}", file=sys.stderr)
+        return 1
     except OSError as error:
         print(f"error: {error}", file=sys.stderr)
         return 1

@@ -51,6 +51,11 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 - Tests: TDD red-green observed (exactly the 5 new bill tests failed, then 381 passed total); `ruff check .` clean. The 260-case seed sweep and byte-for-byte README assertions passed unchanged, confirming bills do not disturb amounts under five dollars.
 - Edge cases exercised: minimum change spanning every bill in one amount (186.75), large amount preferring bills (1234.56), random strategy returning only hundred dollar bills via a largest-picking fake, the random path through make_change returning a bill, bill singular vs plural formatting.
 
+## Phase 1 audit (2026-07-03)
+
+- Tests: 12 audit tests written first; 7 failed exposing the three real bugs, all green after the fixes (393 passed total); `ruff check .` clean; manual CLI run against the README sample re-verified, random line summing to 167.
+- Edge cases added: Arabic-Indic and fullwidth digit rejection, non-UTF-8 input file exiting 1 with a clear message, directory as input path exiting 1, negative amounts rejected by both strategies, zero owed with zero paid producing no change, zero owed with payment, custom currency through make_change on both the minimum and random paths.
+
 ## Restructure - move Python project into backend/ (2026-07-03)
 
 - Tests: recreated .venv inside backend/ (editable installs are path-dependent), reran `pip install -e ".[dev]"`, `pytest` (1 passed), `ruff check .` (clean) from backend/.

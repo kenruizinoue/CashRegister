@@ -5,7 +5,7 @@ from decimal import Decimal
 
 from cash_register.domain import InvalidLineError, Transaction
 
-_AMOUNT_PATTERN = re.compile(r"^\d+(\.\d{1,2})?$")
+_AMOUNT_PATTERN = re.compile(r"^\d+(\.\d{1,2})?$", re.ASCII)
 
 
 def parse_amount(text: str) -> int:

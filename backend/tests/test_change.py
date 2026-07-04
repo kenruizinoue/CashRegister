@@ -88,6 +88,12 @@ class TestMinimumChangeUsd:
         assert sum(d.value_cents * n for d, n in counts.items()) == amount
 
 
+class TestNegativeAmountGuard:
+    def test_minimum_change_rejects_negative(self):
+        with pytest.raises(ValueError, match="non-negative"):
+            minimum_change(-1, USD)
+
+
 class TestConfigurableCurrency:
     def test_euro_table(self):
         change = change_due(Transaction(owed_cents=212, paid_cents=500))

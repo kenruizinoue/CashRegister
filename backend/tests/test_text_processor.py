@@ -35,6 +35,12 @@ class TestProcessLine:
         line = process_line("2.00,1.00")
         assert line == "error: paid 1.00 is less than owed 2.00"
 
+    def test_zero_owed_zero_paid_is_no_change(self):
+        assert process_line("0,0") == "no change"
+
+    def test_zero_owed_with_payment_gives_full_change(self):
+        assert process_line("0.00,0.03", rng=random.Random(1)) != ""
+
 
 class TestProcessText:
     def test_readme_sample(self):
