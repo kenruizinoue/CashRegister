@@ -10,7 +10,7 @@ How AI-generated pieces were confirmed to work: tests used and edge cases exerci
 ## Ticket 2 - Python CI workflow (2026-07-03)
 
 - Tests: workflow YAML parsed and asserted locally (permissions contents read, concurrency cancel-in-progress, timeout-minutes 10, working-directory backend, install/lint/test steps present). The commands CI runs (pip install -e ".[dev]", ruff check ., pytest) are the same ones passing locally.
-- Pending: green run on GitHub requires pushing to origin main; confirm after the next approved push.
+- Confirmed: first Backend CI run on origin main (commit b2b7173) completed with conclusion success.
 - Edge cases: none, wiring-only ticket.
 
 ## Restructure - move Python project into backend/ (2026-07-03)
